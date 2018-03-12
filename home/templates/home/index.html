@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+
+{% load static %}
+
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/static/home/CSS/main_styles.css">
+        <script src="{% static 'home/jquery-3.3.1.min.js' %}"></script>
+
+        {% for font in fontList %}
+            <link href="{{font.url}}" rel="stylesheet">
+        {%endfor%}
+
+    </head>
+    <body>
+        <script src="{% static 'home/dist/magicmirror.js' %}"></script>
+    </body>
+</html>

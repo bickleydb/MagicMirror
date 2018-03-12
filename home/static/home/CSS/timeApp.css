@@ -1,0 +1,35 @@
+.digit {
+    display:inline-block;
+    font-family: 'Quicksand', sans-serif;
+}
+
+
+#hourSeperator {
+    padding-left:3px;
+    padding-right:3px;
+}
+
+#monthElement{
+    padding-right:3px;
+}
+
+#dayOfWeekSeperator {
+    padding-right:5px;
+}
+
+/*hourFistDigit
+hourSecondDigit */
+#hourContainer  {
+
+}
+/*minuteFirstDigit 
+minuteSecondDigit */
+minuteContainer {
+
+}
+/*hourSeperator 
+monthElement 
+dayOfWeekElememt 
+dayOfMonthElement
+yearElement 
+timeDisplay */

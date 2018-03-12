@@ -1,0 +1,5 @@
+<script src="{{bundlePath}}.js"></script>
+
+{% for cssPath in cssList %}
+<link rel="stylesheet" type="text/css" href="{{cssPath.css_resource.sourcePath}}" data-sourceApp = "{{name}}">
+{% endfor %}
