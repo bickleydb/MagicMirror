@@ -1,4 +1,9 @@
 db.sqlite3
 migrations
 configuration.json
+.vscode
 __pycache__
+tsconfig.json
+typings.json
+package-lock.json
+node/modules

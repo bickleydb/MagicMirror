@@ -3,6 +3,13 @@
     font-family: 'Quicksand', sans-serif;
 }
 
+#timeDisplay {
+    font-size:0.4em;
+}
+
+#dateDisplay {
+    font-size:0.1em;
+}
 
 #hourSeperator {
     padding-left:3px;

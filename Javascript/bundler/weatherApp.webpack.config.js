@@ -1,9 +1,8 @@
 module.exports = {
-    entry : "./StatementApp/StatementApp.js",
+    entry : "./WeatherApp/WeatherApp.js",
     output : {
-        filename: '../../../statements/static/statements/JS/StatementApp.js',
+        filename:'../../../home/static/home/dist/WeatherApp.js',
     },
-
     mode : "development",
     
     module:  {
@@ -12,7 +11,6 @@ module.exports = {
                 exclude : [
                     "./Framework/*",
                     "./Common/*",
-                    "./Common/EventManager.js"
                 ]
             }
         ]

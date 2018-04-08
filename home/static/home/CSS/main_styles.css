@@ -2,3 +2,26 @@
     background-color:black;
     color:white;
 }
+
+.shrinkToFit {
+    text-align: center;
+    display: inline-block
+}
+
+.label {
+    text-align: center;
+}
+
+.inlineLabel {
+    text-align: left;
+}
+
+.magicMirrorContainer {
+    display:grid;
+}
+
+.magicMirrorApp{
+    width: calc(100%);
+    height : calc(100%);
+    overflow: hidden;
+}

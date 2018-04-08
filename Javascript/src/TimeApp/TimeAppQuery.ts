@@ -9,7 +9,8 @@ export class TimeAppQuery extends QueryDefinition {
     constructor() {
         super(TimeAppQuery.URL_STRING);
     }
-    getResults() {
+
+    GetResults() {
         const results = this.getResultVals();
         return {
             Minute: results.GetValue("Minute"),

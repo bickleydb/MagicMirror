@@ -1,5 +1,3 @@
-from statements.shared.response_object import statement_response
-
 class twitterResponse():
 
     def __init__(self, jsonData):
@@ -32,16 +30,20 @@ class twitterResponse():
     def get_list(self):
         return self.tweetList
 
-class tweet(statement_response):
+class tweet():
     def __init__(self, status_data):
+        print(status_data)
         self.backing_status = status_data
 
         self.tweet_id = status_data.id_str
         self.fav_count = status_data.favorite_count
         self.source = status_data.source
         self.text = status_data.text
-        self.author = status_data.user
+        self.author = status_data.user.screen_name
   
+    def __str__(self):
+        return "" + str(self.source) + "; " + str(self.author)
+
     def get_id(self):
         return self.tweet_id
 
@@ -55,7 +57,7 @@ class tweet(statement_response):
         return self.text
     
     def get_author(self):
-        return self.author.name
+        return self.author
     
     def get_site(self):
         return "TW"

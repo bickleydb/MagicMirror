@@ -121,7 +121,7 @@ export class TimeApp extends App {
         return parentElement;
     }
 
-    queryComplete(queryDef : QueryDefinition) {
+    queryComplete(queryDef : TimeAppQuery) {
         const currentDate = new Date();
         QueryDefinition.SetResponseVals(queryDef, { Minute: currentDate.getMinutes(),
             Hour: currentDate.getHours(),

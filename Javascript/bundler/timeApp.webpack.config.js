@@ -3,6 +3,8 @@ module.exports = {
     output : {
         filename:'../../../home/static/home/dist/timeApp.js',
     },
+    mode : "development",
+    
     module:  {
         rules: [
             {

@@ -3,27 +3,28 @@ from django.http import HttpResponse
 from django.template import loader
 import json
 
-import statements.shared.statement_db as statement_db
+from statements.shared.repositories.IStatementRepo import IStatementRepo
+from statements.shared.repositories.StatementRepo import StatementRepo
 
 def updateDatabase(request): 
-    dbRef = statement_db.statement_repository()
+    statementRepo = StatementRepo()
     dbRef.update_groups()
     return HttpResponse([])
 
 def get_random_value(request):
-    dbRef = statement_db.statement_repository()
+    dbRef = StatementRepo()
     value = dbRef.get_random_val()
 
     returnValue = {
-        "statement_text" : value.statement_text,
-        "statement_author" : value.statement_author
+        "text" : value.statement_text,
+        "sourceName" : value.statement_author
     }
 
     return HttpResponse(json.dumps(returnValue))
 
 
 def index(request):
-    template = loader.get_template('reddit/index.html')
+    template = loader.get_template('statement/statements.html')
     return HttpResponse(template.render({
-        "thread":statement_db.statement_repository().get_random_val()
+        "thread":StatementRepo().get_random_val()
     },request))

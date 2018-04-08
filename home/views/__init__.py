@@ -3,29 +3,56 @@ from django.http import HttpResponse
 from django.template import loader
 import json
 import os
+import pdb
 
-import home.shared.application_repo as repo
+from home.shared.repositories import AppRepo, CSSRepo, FontRepo, UIConfigRepo, MagicMirrorConfigRepo
 
 def loadHTML(request):
     template = loader.get_template('home/index.html')
     return HttpResponse(template.render({
-        "fontList" :repo.FontRepo().loadFonts()
+        "fontList" :FontRepo.FontRepo().loadFonts()
     }))
 
 
+def loadAppConfig(request):
+    appRepo = MagicMirrorConfigRepo.MagicMirrorConfigRepo()
+    return HttpResponse(translateConfigToJson(appRepo.loadConfiguration()))
+
+
 def loadApplications(request):
-    appRepo = repo.ApplicationRepo()
-    response = HttpResponse(translateAppListToJson(appRepo.get_application_list()))
+    appRepo = AppRepo.AppRepo()
+    uiInfo = UIConfigRepo.UIConfigRepo()
+ 
+    appList = appRepo.get_application_list()
+
+    uiConfigValues = {}
+
+    for app in appList:
+        uiConfigValues[app.name] = uiInfo.get_ui_for_app(app)[0].UI_Config
+ 
+    response = HttpResponse(translateAppListToJson(appList, uiConfigValues))
     return response
 
-def translateAppListToJson(appList):
+def translateConfigToJson(config):
+    return json.dumps({
+        "rows" : config.rows,
+        "columns" : config.columns,
+        "widthValue" : config.width_value, 
+        "widthUnit" : config.width_unit,
+        "heightValue": config.height_value,
+        "heightUnit" : config.height_unit,      
+    })
+
+def translateAppListToJson(appList, configValues):
     jsonStr = "["
     for value in appList:
         jsonStr = jsonStr + json.dumps({
              "name": value.name,
              "bundlePath": value.bundlePath,
-             "width" : value.width_value,
-             "height" : value.height_value,
+             "startRow" : configValues[value.name].startRow,
+             "endRow" : configValues[value.name].endRow,
+             "startColumn" : configValues[value.name].startColumn,
+             "endColumn" : configValues[value.name].endColumn,        
         })
         jsonStr = jsonStr + ","
     jsonStr = jsonStr[:-1]
@@ -33,16 +60,15 @@ def translateAppListToJson(appList):
     return jsonStr
 
 def grabCSSList(app):
-    cssRepo = repo.CSSRepo()
+    cssRepo = CSSRepo.CSSRepo()
     lst= cssRepo.load_css_for_app(app)
-    print(lst)
     return lst
 
 
 def loadApp(request, appName):
-    appRepo = repo.ApplicationRepo()
+    appRepo = AppRepo.AppRepo()
     appInfo = appRepo.get_application(appName)
-
+   
     template = loader.get_template('home/app_initialize.html')
 
     return HttpResponse(template.render({

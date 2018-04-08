@@ -1,8 +1,6 @@
 import json
 
-from statements.shared.response_object import statement_response
-
-class subreddit_thread(statement_response):
+class subreddit_thread():
 
     def get_text(self):
         return self.get_title()

@@ -1,23 +1,23 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.template import loader
+from django.template import loader 
 
 
-import weather.shared.weather_db  as weather_db
+from weather.shared.repositories.WeatherRepo import WeatherRepo
 
 def get_weather(request):
-    weather_repo = weather_db.weather_repository()
+    weather_repo = WeatherRepo()
     return HttpResponse(weather_repo.updateToday())
 
 def update_today(request):
-    weather_repo = weather_db.weather_repository()
+    weather_repo = WeatherRepo()
     weather_repo.updateToday()
     return HttpResponse(True)
 
 
 def index(request):
-    weather_repo = weather_db.weather_repository()
-    template = loader.get_template('weather/widget/weather_widget.html')
+    weather_repo = WeatherRepo()
+    template = loader.get_template('weather/widget/weather_index.html')
     today_weather = weather_repo.get_today_weather()
     return HttpResponse(template.render({
         "main_temp": ConvertingFunctions.kelvinToFaren(today_weather.main_temp),
@@ -30,6 +30,8 @@ def index(request):
         "wind_speed" : today_weather.wind_speed,
         "description" : today_weather.description,
         "humidity" : today_weather.humidity,
+        "icon"    : today_weather.icon_key,
+        "tempUnit" : "°F",
     },request))
 
 

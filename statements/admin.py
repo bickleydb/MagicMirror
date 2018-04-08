@@ -1,5 +1,8 @@
 from django.contrib import admin
-from .models.statement_models import single_text_statement, text_statement_source
+from statements.models.TextStatementModel import TextStatementModel
+from statements.models.TextStatementSourceModel import TextSatementSourceModel
+
 # Register your models here.
-admin.site.register(single_text_statement)
-admin.site.register(text_statement_source)
+
+admin.site.register(TextStatementModel)
+admin.site.register(TextSatementSourceModel)

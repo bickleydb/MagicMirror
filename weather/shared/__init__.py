@@ -9,5 +9,5 @@ def load_configuration(filename="/configuration.json"):
 
 CONFIG_DATA = load_configuration()
 APP_KEY = CONFIG_DATA["PrivateKey"]
-ZIP_CODE = CONFIG_DATA["Zipcode"]
+ZIP_CODE = CONFIG_DATA["ZipCode"]
 COUNTRY_CODE = CONFIG_DATA["CountryCode"]

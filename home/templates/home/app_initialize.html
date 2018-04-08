@@ -1,4 +1,7 @@
+
+{% if bundlePath %}
 <script src="{{bundlePath}}.js"></script>
+{% endif %}
 
 {% for cssPath in cssList %}
 <link rel="stylesheet" type="text/css" href="{{cssPath.css_resource.sourcePath}}" data-sourceApp = "{{name}}">
