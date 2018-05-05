@@ -7,4 +7,6 @@ tsconfig.json
 typings.json
 package-lock.json
 node/modules
+Design
+Design/*
 .js
