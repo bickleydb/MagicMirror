@@ -15,6 +15,11 @@ def update_today(request):
     return HttpResponse(True)
 
 
+def update_forcast(request):
+     weather_repo = WeatherRepo()
+     weather_repo.updateForcast()
+     return HttpResponse(True)
+
 def index(request):
     weather_repo = WeatherRepo()
     template = loader.get_template('weather/widget/weather_index.html')

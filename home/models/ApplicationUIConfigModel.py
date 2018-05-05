@@ -7,6 +7,7 @@ class ApplicationUIConfigModel(models.Model):
     startColumn = models.IntegerField("Start Column")
     endColumn = models.IntegerField("End Column")
     name = models.CharField("Name", max_length=100)
+    startOnStartup = models.BooleanField("Should Load On Start")
     
     @staticmethod
     def get_manager():

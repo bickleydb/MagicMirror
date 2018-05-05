@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'statements.apps.StatementsConfig',
     'weather.apps.WeatherConfig',
+    'splashpage.apps.SplashPageConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

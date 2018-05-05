@@ -1,9 +1,11 @@
+import { MagicMirrorConfig } from './MagicMirrorConfig';
 import { QueryDefinition } from './QueryDefinition';
 import { EventManager } from '../Common/EventManager';
 import { AppStatus } from './AppStatus';
 import {App} from "../Framework/App"
 import { AppUIConfig } from './AppUIConfig';
-
+import {RegisteredApplicationRepository} from './RegisteredAppRepo';
+import { UIStack } from './UIStack';
 
 
 type RequestQueue = QueryDefinition[];
@@ -11,19 +13,30 @@ type RequestQueue = QueryDefinition[];
 
 interface AppDef {
     name : string,
-    [key:string] : string 
+    [key:string] : any, 
+    StartRow:number, 
+    EndRow:number,
+    StartColumn:number,
+    EndColumn:number,
+    Priority:number
+}
+
+interface QueryResponseFunction {
+    (data:any) : any 
 }
 
 class WindowBase {
     private baseHTMLElement : HTMLElement
 
-    private registeredApps : { [key:string] : AppStatus };
+    private registeredApps : RegisteredApplicationRepository;
     private AppUIConfig : { [key:string] : AppUIConfig };
 
     private requests : RequestQueue;
     private requestTimer : number = -1;
 
     private mainLoopId : number = -1;
+    private uiStack : UIStack = new UIStack(0,0);
+    private MirrorConfig : MagicMirrorConfig | null = null;
 
 
     private readonly SERVER_URL = "http://127.0.0.1:8000";
@@ -38,77 +51,105 @@ class WindowBase {
         document.body.appendChild(this.baseHTMLElement);    
         this.requests = [];
         this.AppUIConfig = {};
-        this.registeredApps = {};
-
-       // this.loadApplicationList();
+        this.registeredApps = new RegisteredApplicationRepository();
         this.attachEventHandlers();
-
-       this.startLoadingSequence();
+        this.startLoadingSequence();
     }
 
 
     startLoadingSequence() : void {
-        const configQuery =  $.ajax(this.CONFIG_URL);
-        configQuery.done( (data:any) => { this.setupConfig(JSON.parse(data));})
-        const nextQuery = configQuery.then( () => {return $.ajax(this.APP_LIST_URL);})
-        nextQuery.done( (data:any) => {
-            let response : AppDef[] = JSON.parse(data);
-            response.forEach(app => {
-                const UIConfig = new AppUIConfig();
-                UIConfig.RowStart = parseInt(app.startRow);
-                UIConfig.RowEnd = parseInt(app.endRow);
-                UIConfig.ColumnStart = parseInt(app.startColumn);
-                this.AppUIConfig[app.name] = UIConfig;
-                UIConfig.ColumnEnd = parseInt(app.endColumn);
-                const appName = app.name;
-                this.loadApp(appName);
-            });      
-        })
+        const MagicMirrorConfigQuery = this.getMagicMirrorConfig();
+        const nextQuery = this. getApplicationList(MagicMirrorConfigQuery, this.setupApplicationList.bind(this));
     }
 
-    setupConfig(config : {rows : number, columns : number, widthValue : number, widthUnit:string, heightValue:number, heightUnit:string}) {
-        const inlineElement = document.createElement("style");
-        inlineElement.innerText = ".mirrorContainer { " + "width:" + config.widthValue + config.widthUnit  + "; height:" + config.heightValue + config.heightUnit + ";" + "grid-template-rows:" +  ((100/config.rows)+"% ").repeat(config.rows) + ";" + "grid-template-columns:" + ((100/config.columns)+"% ").repeat(config.columns) + ";" + "</style>"
-        document.head.appendChild(inlineElement);
+    getApplicationList(prevQuery : JQuery.jqXHR, onComplete : QueryResponseFunction ) {
+        const appListQuery = prevQuery.then( () => {return $.ajax(this.APP_LIST_URL);})
+        appListQuery.done(onComplete);
+    }
+
+    setupApplicationList(data:any)  : void {
+        let response : AppDef[] = JSON.parse(data);
+        response.forEach(this.setupApplication.bind(this));
+    }
+
+    getMagicMirrorConfig() {
+        const configQuery =  $.ajax(this.CONFIG_URL);
+        configQuery.done( (data:any) => { this.setupMirror(JSON.parse(data));})
+        return configQuery;
+    }
+
+    setupApplication(app : AppDef) {
+        const appName = app.name;
+        this.registeredApps.RegisterApplication(appName);
+        this.registeredApps.SetUIConfig(appName, AppUIConfig.ParseFromObject(app));
+        this.loadApp(appName);
+    }
+    
+    setupMirror(config : {rows : number, columns : number, widthValue : number, widthUnit:string, heightValue:number, heightUnit:string}) {
+        this.uiStack = new UIStack(config.rows,config.columns);
+        this.MirrorConfig = new MagicMirrorConfig(config);
+        document.head.appendChild(this.MirrorConfig.TranslateToHTML());
     }
 
     applyUIConfig(configVals : AppUIConfig, element : HTMLElement | any) 
     {      
-        element.style.gridRowStart = configVals.RowStart;
-        element.style.gridRowEnd = configVals.RowEnd;
-        element.style.gridColumnStart = configVals.ColumnStart;
-        element.style.gridColumnEnd = configVals.ColumnEnd;
-
-        if(element instanceof HTMLElement) {
-            const containerRect = element.getBoundingClientRect();
-            element.style.fontSize = containerRect.width + "px";
-            element.style.width = containerRect.width + "px";
-            element.style.height = containerRect.height + "px";
-            element.style.position = "relative";
-        }
+        configVals.ApplyConfigToHTMLElement(element);
     }
 
     addApplication(newApp : App) : void  {
         const appName = newApp.getName();
-        this.registeredApps[appName] = new AppStatus(newApp);
-        const appUI = this.AppUIConfig[newApp.getName()];
+        this.registeredApps.SetupApplication(appName,newApp);
+        this.startApps();
+    }
+
+    addAppToUI(appName: string) {
+        const appStatus : AppStatus | null = this.registeredApps.GetStatus(appName);
+        const appUIStatus : AppUIConfig | null = this.registeredApps.GetUIConfig(appName);
+        if(appStatus == null || appUIStatus == null) {return;}
+        this.uiStack.PushApp(appStatus.App,appUIStatus);
+    }
+
+
+    startApps() : void {
+        if(!this.registeredApps.HaveAllAppsBeenLoaded()) {return;}
+        const secondaryAppList = this.registeredApps.GetAppsWhereUI((app : AppUIConfig) => {return !app.LoadOnStart});
+        const importantAppList = this.registeredApps.GetAppsWhereUI((app : AppUIConfig) => {return app.LoadOnStart});
+        secondaryAppList.forEach(this.addAppToUI.bind(this));
+        importantAppList.forEach(this.addAppToUI.bind(this));
+        this.refreshAppsInUI();
+    }
+
     
-        
-        if(newApp.clientOnly()) {
-            const curElement = this.createAppHTML();
-            newApp.onInitialRender(curElement);
-            this.applyUIConfig(appUI, curElement);
-            return;
-        }
-        const UIQuery = newApp.getUIQuery();
-        $.ajax(UIQuery.URL, {
-            success : (data:any) => {
-                const appHTMLElement = this.createAppHTML();
-                $(appHTMLElement).append(data);
-                this.applyUIConfig(appUI, appHTMLElement);
-                newApp.onInitialRender(appHTMLElement);
+
+    refreshAppsInUI() : void {
+        const appList  = this.uiStack.GetAppsToRender();
+        for(var property in appList) {
+            if(!appList.hasOwnProperty(property)) {
+                continue;
             }
-        })
+            const application = appList[property];
+            const appUIConfig : AppUIConfig | null = this.registeredApps.GetUIConfig(property);
+            const appStatus : AppStatus | null = this.registeredApps.GetStatus(property);
+            if(!application || !appStatus || !appUIConfig || appStatus.HasBeenLoaded) {return;}
+            if(application.clientOnly()) {
+                this.startAppUI(application,appUIConfig,appStatus,null);
+             } else {
+                const UIQuery = application.getUIQuery();
+                $.ajax(UIQuery.URL, {
+                    success : this.startAppUI.bind(this,application, appUIConfig, appStatus)
+                });
+            }
+        }
+    }
+
+    startAppUI(app:App, UIConfig : AppUIConfig,  appStatus : AppStatus, data:any) : void {
+        const appHTMLElement = this.createAppHTML(app);
+        if(data != null) {
+            $(appHTMLElement).append(data);
+        }
+        this.applyUIConfig(UIConfig, appHTMLElement);
+        app.onInitialRender(appHTMLElement);
+        appStatus.HasBeenLoaded = true;
     }
 
     loadApp(appName: string) : void {
@@ -120,30 +161,19 @@ class WindowBase {
     }
 
     createBaseAppContainer() : HTMLElement {
+
         const baseContainer = document.createElement("div");
         baseContainer.classList.add("magicMirrorContainer");
         baseContainer.classList.add("mirrorContainer");
         return baseContainer;
     }
 
-    createAppHTML() : HTMLElement {
+    createAppHTML(app:App) : HTMLElement {
         const appContainer = document.createElement("div");
         appContainer.classList.add("magicMirrorApp");
+        appContainer.setAttribute("data-MagicMirrorAppID",app.getName());
         this.baseHTMLElement.appendChild(appContainer);
         return appContainer;
-    }
-
-    loadApplicationList() : void {
-        $.ajax(this.APP_LIST_URL, {
-            success : (data:any) => {
-                    let response : AppDef[] = JSON.parse(data);
-                    response.forEach(app => {
-                        const appName = app.name;
-                        alert(app)
-                        this.loadApp(appName);
-                    });      
-                }
-        });
     }
 
 
@@ -152,27 +182,7 @@ class WindowBase {
         QueryDefinition.SetResponseVals(queryDef,dataObject);
         owningApp.queryComplete(queryDef);
     }
-    
-
-    startAppLoop() : void {
-        this.mainLoopId = setInterval(this.appLoop, 5000);
-    }
-
-    appLoop() : void {
-        for(let property in this.registeredApps) {
-            if(!this.registeredApps.hasOwnProperty(property)) {continue;}
-            const appStatus = this.registeredApps[property];
-            if(appStatus.IsWaitingQuery || !appStatus.HasBeenLoaded || appStatus.App.clientOnly()) {continue;}
-        }
-    }
-
-
-
-    setupMagicMirror(data : object) : void {
-
-    }
-
-
+      
     sendRequestLoop() : void {
         if(this.requests.length == 0) {return;}
         let currentRequest = this.requests.pop();
@@ -186,9 +196,24 @@ class WindowBase {
             success: this.applyQueryResponse.bind(this, requestedQuery, params[1]),
         });
     }
+    
+    requestCloseApplication(event : any, ...params : any[]) : void {
+        const app = params[0] as App;
+        const appNameString = app.getName();
+        const appContainer = document.querySelector("[data-MagicMirrorAppID=\""+appNameString+"\"]");
+        if(appContainer && appContainer.parentElement) {
+            appContainer.parentElement.removeChild(appContainer);
+        }
+        app.OnClose();
+        this.registeredApps.RemoveApp(app.getName());
+        this.uiStack.PopApp(app);
+        this.refreshAppsInUI();
+    }
 
     attachEventHandlers() : void {
         $(document).on("RequestQuery", $.proxy(this.requestQueryCallback,this));
+        $(document).on("RequestClose", $.proxy(this.requestCloseApplication,this));
+
     }
 }
     

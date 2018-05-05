@@ -1,3 +1,4 @@
+
 export class AppUIConfig {
 
     private width:Number = 0;
@@ -7,6 +8,8 @@ export class AppUIConfig {
     private rowEnd : number = 0;
     private columnStart : number = 0;
     private columnEnd : number = 0;
+
+    private loadOnStart : boolean = false;
 
     public get Width() {
         return this.width;
@@ -38,6 +41,14 @@ export class AppUIConfig {
     public get ColumnEnd() {
         return this.columnEnd;
     }
+    
+    public get LoadOnStart() : boolean {
+        return this.loadOnStart;
+    }
+
+    public set LoadOnStart(value : boolean) {
+        this.loadOnStart = value;
+    }
 
     public set RowStart(value : number) {
         this.rowStart = value;
@@ -52,6 +63,36 @@ export class AppUIConfig {
 
     public set ColumnEnd(value : number) {
         this.columnEnd = value;
+    }
+
+    public static ParseFromObject (object : {StartRow:number, EndRow:number, StartColumn:number, EndColumn:number, Priority:number} ) : AppUIConfig {
+        const appConfig = new AppUIConfig();
+        appConfig.RowStart = object.StartRow;
+        appConfig.RowEnd = object.EndRow;
+        appConfig.ColumnStart = object.StartColumn;
+        appConfig.ColumnEnd = object.EndColumn;
+        appConfig.LoadOnStart = !!object.Priority;
+        return appConfig;
+    }
+
+    private ApplyGridStyles(element : any) : void {
+        element.style.gridRowStart = this.RowStart;
+        element.style.gridRowEnd = this.RowEnd;
+        element.style.gridColumnStart = this.ColumnStart;
+        element.style.gridColumnEnd = this.ColumnEnd;
+    }
+
+    private ApplyRelativeSizeBaselineStyles(element : HTMLElement) {
+        const containerRect = element.getBoundingClientRect();
+        element.style.fontSize = containerRect.width + "px";
+        element.style.width = containerRect.width + "px";
+        element.style.height = containerRect.height + "px";
+        element.style.position = "relative";
+    }
+
+    public ApplyConfigToHTMLElement(element : any) : void {
+        this.ApplyGridStyles(element);
+        this.ApplyRelativeSizeBaselineStyles(element);
     }
 
 }

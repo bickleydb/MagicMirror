@@ -28,7 +28,9 @@ def loadApplications(request):
     uiConfigValues = {}
 
     for app in appList:
-        uiConfigValues[app.name] = uiInfo.get_ui_for_app(app)[0].UI_Config
+        uiConfigList = uiInfo.get_ui_for_app(app)
+        if len(uiConfigList) != 0:
+            uiConfigValues[app.name] = uiInfo.get_ui_for_app(app)[0].UI_Config
  
     response = HttpResponse(translateAppListToJson(appList, uiConfigValues))
     return response
@@ -46,15 +48,17 @@ def translateConfigToJson(config):
 def translateAppListToJson(appList, configValues):
     jsonStr = "["
     for value in appList:
-        jsonStr = jsonStr + json.dumps({
-             "name": value.name,
-             "bundlePath": value.bundlePath,
-             "startRow" : configValues[value.name].startRow,
-             "endRow" : configValues[value.name].endRow,
-             "startColumn" : configValues[value.name].startColumn,
-             "endColumn" : configValues[value.name].endColumn,        
-        })
-        jsonStr = jsonStr + ","
+        if value.name in configValues:
+            jsonStr = jsonStr + json.dumps({
+                "name": value.name,
+                "bundlePath": value.bundlePath,
+                "StartRow" : configValues[value.name].startRow,
+                "EndRow" : configValues[value.name].endRow,
+                "StartColumn" : configValues[value.name].startColumn,
+                "EndColumn" : configValues[value.name].endColumn,   
+                "Priority" : configValues[value.name].startOnStartup     
+            })
+            jsonStr = jsonStr + ","
     jsonStr = jsonStr[:-1]
     jsonStr = jsonStr + "]"
     return jsonStr

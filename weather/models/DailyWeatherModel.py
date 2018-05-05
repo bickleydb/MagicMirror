@@ -16,6 +16,9 @@ class DailyWeatherModel(models.Model):
     sunrise     = models.TimeField(blank=True,null=True)
     sunset      = models.TimeField(blank=True,null=True)
 
+
+    def __str__(self):
+        return str(self.date)
     @staticmethod
     def get_manager():
         return DailyWeatherModel.objects

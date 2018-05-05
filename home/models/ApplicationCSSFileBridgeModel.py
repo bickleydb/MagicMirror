@@ -1,9 +1,10 @@
 from django.db import models
+from django.utils.translation import gettext as _
 
 class ApplicationCSSFileBridgeModel(models.Model):
 
-    actualApp = models.ForeignKey("ApplicationDefinitionModel", on_delete=models.CASCADE, verbose_name="Application")
-    css_resource = models.ForeignKey("CSSResourceModel", on_delete=models.CASCADE, verbose_name="CSS File")
+    actualApp = models.ForeignKey("ApplicationDefinitionModel", on_delete=models.CASCADE, verbose_name=_("Application"))
+    css_resource = models.ForeignKey("CSSResourceModel", on_delete=models.CASCADE, verbose_name=_("CSS File"))
 
     def __str__(self):
         return self.actualApp.name +" : " + self.css_resource.sourcePath

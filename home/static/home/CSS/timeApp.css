@@ -4,11 +4,11 @@
 }
 
 #timeDisplay {
-    font-size:0.4em;
+    font-size:30%;
 }
 
 #dateDisplay {
-    font-size:0.1em;
+    font-size:10%;
 }
 
 #hourSeperator {

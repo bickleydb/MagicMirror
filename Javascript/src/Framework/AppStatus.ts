@@ -5,6 +5,7 @@ export class AppStatus {
     private hasBeenLoaded : boolean;
     private isWaitingQuery : boolean;
     private isWaitingOnInit : boolean;
+    private isVisible : boolean;
     private app : App;
 
     public constructor(app: App) {
@@ -12,6 +13,7 @@ export class AppStatus {
         this.hasBeenLoaded = false;
         this.isWaitingQuery = false;
         this.isWaitingOnInit = false;
+        this.isVisible = false;
     }
 
     public get App() : App{
@@ -30,9 +32,18 @@ export class AppStatus {
         return this.isWaitingOnInit;
     }
 
+    public get IsVisible() : boolean {
+        return this.isVisible;
+    }
+
     public set IsWaitingOnInit(isWaiting : boolean) {
         this.isWaitingOnInit = isWaiting;
     }
+
+    public set IsVisible(value:boolean) {
+        this.isVisible = value;
+    }
+
 
     public set App(app:App) {
         this.app = app;

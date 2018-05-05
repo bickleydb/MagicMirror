@@ -3,6 +3,16 @@
     color:white;
 }
 
+.transparent {
+    background-color: transparent;
+}
+
+.transparentSVG {
+    position: absolute;
+    background-color: transparent;
+    z-index: 10;
+}
+
 .shrinkToFit {
     text-align: center;
     display: inline-block
