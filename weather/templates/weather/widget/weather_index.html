@@ -1,0 +1,63 @@
+<div>
+        <div id="weatherContainer">
+            <div id="currentWeatherPanel">
+                <i class="weatherIcon wi wi-owm-{{icon}}"></i>
+                <div id="currentTemp" class="StyledFont">
+                    {{main_temp|floatformat:0}} {{tempUnit}}
+                </div>
+            </div>
+        <div class="shrinkToFit">
+            <div class="label StyledFont weatherDetailRow" id="labelCurrent">
+                Current Weather
+            </div>
+        <div>
+        
+        <table id="additionalValues">
+                <tbody>
+                    <tr id="sunStatusRow" class="weatherDetailRow StyledFont">
+                        <td class="inlineLabel" id="highTempLabel" style="width: 25%;">
+                            High
+                        </td>
+                        <td id="highTemp">
+                            {{high_temp|floatformat:0}} {{tempUnit}}
+                        </td>
+                        <td class="inlineLabel" id="lowTempLabel">
+                            Low
+                        </td>
+                        <td id="sunriseTime">
+                            {{low_temp|floatformat:0}} {{tempUnit}}
+                        </td>
+                    </tr>
+                    <tr id="percipitationRow" class="weatherDetailRow StyledFont">
+                        <td class="inlineLabel" id="humidityLabel">
+                            Humidity
+                        </td>
+                        <td id="humidityValue">
+                            {{humidity}}
+                        </td>
+                        <td class="inlineLabel" id="snowLabel">
+                            Snow
+                        </td>
+                        <td id="snowAmount">
+                            {{snow_amt}}
+                        </td>
+                    </tr>
+                <tr id="sunStatusRow" class="weatherDetailRow StyledFont">
+                        <td class="inlineLabel" id="sunriseLabel">
+                            Sunrise
+                        </td>
+                        <td id="sunriseTime">
+                            {{sunrise}}
+                        </td>
+                        <td class="inlineLabel" id="sunsetLabel">
+                            Sunset
+                        </td>
+                        <td id="sunsetTime">
+                            {{sunset}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
