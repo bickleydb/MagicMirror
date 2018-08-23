@@ -1,0 +1,55 @@
+<link rel="stylesheet" href="css/weather-icons.css">
+
+<div>
+    <div>
+
+        <i class="weatherIcon wi wi-owm-{{icon}}"></i>
+
+        <div>
+            <span>Current Temp</span>
+            <span class="temperature" id="currentTemp">{{main_temp|floatformat:0}} {{tempUnit}}</span>
+        </div>
+    </div>
+    <div>
+        <div>
+            <div>
+                <span>High Temp</span>
+                <span class="temperature" id="highTemp">{{high_temp|floatformat:0}} {{tempUnit}}</span>
+            </div>
+        </div>
+        <div>
+            <div>
+                <span>Low Temp</span>
+                <span class="temperature" id="lowTemp">{{low_temp|floatformat:0}} {{tempUnit}}</span>
+            </div>
+        </div>
+        <div>
+            <div>
+                <div id="windSpeed">{{wind_speed|floatformat:1}} mph</div>
+            </div>
+        </div>
+    </div>
+    <div class="shrinkToFit">
+        <div class="label" id="labelCurrent">Current Weather</div>
+        <div>
+            <table id="additionalValues">
+                <tbody>
+                    <tr id="sunStatusRow">
+                        <td class="inlineLabel" id="sunsetLabel" >Sunset</td>
+                        <td id="sunsetTime">{{sunset}}</td>
+                        <td class="inlineLabel" id="sunriseLabel">Sunrise</td>
+                        <td id="sunriseTime">{{sunrise}}</td>
+                    </tr>
+                    <tr  id="percipitationRow">
+                        <td class="inlineLabel" id="humidityLabel">Humidity</td>
+                        <td id="humidityValue">{{humidity}}</td>
+                        <td class="inlineLabel" id="snowLabel">Snow</td>
+                        <td id="snowAmount">2in</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div>
+    </div>
+</div>

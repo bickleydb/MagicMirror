@@ -1,0 +1,17 @@
+
+.messageContainer {
+    font-size:2%;
+}
+
+.centerText {
+    text-align: center;
+}
+
+#source_title {
+    font-family: Source Sans Pro;
+    font-size:125%;
+}
+
+#message {
+    font-family: Source Sans Pro;
+}

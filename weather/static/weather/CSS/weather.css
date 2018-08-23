@@ -1,0 +1,48 @@
+
+
+.weatherIcon {
+    display:block;
+    font-size:50%;
+    margin-left:25%;
+}
+
+.StyledFont {
+    font-family: Quicksand;
+}
+
+.label {
+    font-size:2vw;
+    font-family: Quicksand;
+}
+
+.weatherDetailRow {
+    font-size:8%;
+}
+
+.weatherDetailRow td {
+    width:25%;
+}
+
+#additionalValues {
+    width:100%;
+    border:0.1vw solid white;
+}
+
+#weatherContainer {
+    display: flex;
+    flex-direction:column
+}
+
+#currentTemp {
+    font-size:35%;
+    width:100%;
+    line-height: 125%;;
+    margin:0 auto;
+    text-align:center;
+    font-family: Quicksand;
+}
+
+#currentWeatherPanel {
+    width:100%;
+    flex-grow:1;
+}

@@ -1,0 +1,9 @@
+<div class="transparent splashPageContainer">
+    {{ splash_svg | safe}}
+
+    {% if uses_animation %}
+    <div id="animationDiv" class="scrollFromTop startScrollAnimation" style="{{color_string}}">
+
+    </div>
+    {% endif %}
+</div>

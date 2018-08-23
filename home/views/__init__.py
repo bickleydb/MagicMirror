@@ -28,7 +28,7 @@ def buildConfigValueDict(appList):
     return uiConfigValues
 
 def loadApplications(request):
-    appList = AppRepo.AppRepo().get_application_list()
+    appList = AppRepo.AppRepo().get_application_list(request.user)
     uiConfigValues = buildConfigValueDict(appList)
     response = AppListResponse(appList,uiConfigValues)
     return HttpResponse(response.toJSON())
