@@ -59,7 +59,7 @@ class WindowBase {
 
     startLoadingSequence() : void {
         const MagicMirrorConfigQuery = this.getMagicMirrorConfig();
-        const nextQuery = this. getApplicationList(MagicMirrorConfigQuery, this.setupApplicationList.bind(this));
+        const nextQuery = this.getApplicationList(MagicMirrorConfigQuery, this.setupApplicationList.bind(this));
     }
 
     getApplicationList(prevQuery : JQuery.jqXHR, onComplete : QueryResponseFunction ) {

@@ -54,6 +54,7 @@ export class WeatherApp extends App {
     }
 
     queryComplete(queryDef : QueryDefinition) : void {
+        alert("test");
 
     }
 
