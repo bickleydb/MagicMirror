@@ -1,8 +1,12 @@
 from django.db import models
+from django.utils.translation import gettext as _
 
+from . import Bundle_Path_Max_Length
 
 class CSSResourceModel(models.Model):
-    sourcePath = models.CharField(max_length=255)
+    sourcePath = models.CharField(max_length=Bundle_Path_Max_Length,
+             help_text=_("Location of the CSS file relative to the /static/ endpoint")
+    )
     
     def __str__(self):
         return self.sourcePath
@@ -12,5 +16,5 @@ class CSSResourceModel(models.Model):
         return CSSResourceModel.objects
 
     class Meta:
-        verbose_name="CSS File"
-        verbose_name_plural = "CSS Files"
+        verbose_name=_("CSS File")
+        verbose_name_plural = _("CSS Files")

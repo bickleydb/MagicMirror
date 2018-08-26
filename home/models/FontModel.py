@@ -1,8 +1,19 @@
 from django.db import models
+from django.utils.translation import gettext as _
+
+from . import Name_Max_Length
+from . import Max_URL_Length
 
 class FontModel(models.Model):
-    name = models.CharField("Font Name", max_length=100)
-    url = models.CharField("Font URL", max_length=1000)
+    name = models.CharField(_("Font Name"),
+            max_length=Name_Max_Length,
+            help_text=_("Friendly name to use to refer to this font")
+    )
+
+    url = models.CharField(_("Font URL"),
+            max_length=Max_URL_Length,
+            help_text=_("URL to use to load the font")
+    )
 
     def __str__(self):
         return self.name
@@ -12,5 +23,5 @@ class FontModel(models.Model):
         return FontModel.objects
 
     class Meta:
-        verbose_name="Font"
-        verbose_name_plural = "Fonts"
+        verbose_name=_("Font")
+        verbose_name_plural = _("Fonts")
