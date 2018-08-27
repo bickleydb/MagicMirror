@@ -12,7 +12,6 @@ class OWMRequest:
 
     def __init__(self, zip_code=weather.shared.ZIP_CODE, country_code=weather.shared.COUNTRY_CODE, should_get_forcast=False):
         self.zip_code = zip_code
-        print(self.zip_code)
         self.country_code = country_code
         self.should_get_forcast = should_get_forcast
         self.appid = weather.shared.APP_KEY

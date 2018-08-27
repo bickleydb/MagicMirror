@@ -4,25 +4,37 @@ from weather.models.DailyWeatherModel import DailyWeatherModel
 from weather.models.WeatherForcastModel import WeatherForcastModel
 from weather.shared.owm_objects.OWMRequest import OWMRequest
 
+from weather.models.WeatherConfigurationUserBridge import WeatherConfigurationUserBridge as WCUB
 class WeatherRepo:
+
+    def get_user_location(self, user):
+        locationList = WCUB.get_manager()
+        rtnList = []
+        for bridge in locationList.filter(user=user):
+            rtnList.append(bridge.weatherConfiguration)
+        return rtnList
+
 
     def get_today_date(self):
         return datetime.date.today()
 
-    def get_today_weather(self):
+    def get_today_weather(self, user):
+        currentLocation = self.get_user_location(user)[0]
         weather_manager = DailyWeatherModel.get_manager()
-        weather_data = weather_manager.all().filter(date=self.get_today_date())
+        weather_data = weather_manager.all().filter(date=self.get_today_date()).filter(location=currentLocation)
         if len(weather_data) is 0:
-            self.updateToday()
+            self.updateToday(user)
             weather_data = weather_manager.all().filter(date=self.get_today_date())
         return weather_data[0]
 
-    def updateToday(self):
-        response_data = OWMRequest().get_data()
+    def updateToday(self, user):
+        currentLocation = self.get_user_location(user)[0]
+        response_data = OWMRequest(zip_code=currentLocation.zipCode).get_data()
         weather_manager = DailyWeatherModel.get_manager()
         weather_record, _ = weather_manager.update_or_create(
                 date     = str(self.get_today_date()),
                 defaults = {
+                     "location"     : currentLocation,
                      "description" : response_data.get_weather_desc(),
                      "high_temp"   : response_data.get_max_temp(),
                      "low_temp"    : response_data.get_min_temp(),

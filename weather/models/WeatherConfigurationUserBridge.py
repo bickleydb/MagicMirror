@@ -11,5 +11,9 @@ class WeatherConfigurationUserBridge (models.Model):
         on_delete=models.CASCADE
     )
 
+    @staticmethod
+    def get_manager():
+        return WeatherConfigurationUserBridge.objects
+
     def __str__(self): 
         return  self.user.username + " : " + str(self.weatherConfiguration)

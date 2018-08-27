@@ -12,6 +12,10 @@ class WeatherConfigurationModel(models.Model):
     locationName = models.CharField(max_length=Location_Max_Length,
             help_text=_("Human readable name of location")
     )
+
+    @staticmethod
+    def get_manager():
+        return WeatherConfigurationModel.objects 
     
     def __str__(self):
         return self.locationName
