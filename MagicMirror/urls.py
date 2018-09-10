@@ -22,6 +22,7 @@ urlpatterns = [
     path('statements/', include('statements.urls')),
     path('weather/', include('weather.urls')),
     path('splash/', include('splashpage.urls')),
+    path('traffic/', include('traffic.urls')),
     path('', include('home.urls'))
 
 ]
