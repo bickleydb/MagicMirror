@@ -10,3 +10,5 @@ def load_configuration(filename="/configuration.json"):
 CONFIG_DATA = load_configuration()
 GOOGLE_API_KEY = CONFIG_DATA["GoogleApiKey"]
 
+USE_TESTING_RESPONSES = True
+TEST_RESPONSE_DIR = DIR_PATH + '\\TestQueryResponses\\'

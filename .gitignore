@@ -9,4 +9,12 @@ package-lock.json
 node/modules
 Design
 Design/*
-.js
+*.js
+*.js.map
+*.Javascript
+*.jst
+node_modules\*
+Javascript/node_modules/*
+manage.py
+TestQuery*
+*.svg

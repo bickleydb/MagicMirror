@@ -2,6 +2,9 @@ import requests
 import json
 
 from . import RouteQuery
+from traffic import USE_TESTING_RESPONSES, TEST_RESPONSE_DIR
+
+from traffic.shared.responses import GoogleResponseObject
 
 class GoogleMapsRouteQuery (RouteQuery.RouteQuery):
         
@@ -40,6 +43,12 @@ class GoogleMapsRouteQuery (RouteQuery.RouteQuery):
         )
 
     def getResult(self):
+        if(USE_TESTING_RESPONSES):
+              testing_file = open(TEST_RESPONSE_DIR + "TestQuery.json", 'r')
+              jsonData = testing_file.read()
+              trafficResponse = GoogleResponseObject.GoogleResponseObject(jsonData)
+              return trafficResponse
+
         url = self.getURL()
         response = requests.get(url)
-        return response
+        return GoogleResponseObject.GoogleResponseObject( json_data=response.text)
