@@ -1,45 +1,37 @@
-import { TimeAppQuery } from './TimeAppQuery';
-import { QueryDefinition } from './../Framework/QueryDefinition';
+import { TimeAppQuery, TimeAppQueryResult } from './TimeAppQuery';
+import {TimeAppUIQuery } from './TimeAppUIQuery';
 import { App } from "../Framework/App" 
 
 export class TimeApp extends App {
 
 
-    private elementIds = {
-        hourFistDigit: "hourFirstDigit",
-        hourSecondDigit: "hourSecondDigit",
-        hourContainer: "hourContainer",
-        minuteFirstDigit: "minuteFirstDigit",
-        minuteSecondDigit: "minuteSecondDigit",
-        minuteContainer: "minuteContainer",
-        hourSeperator: "hourSeperator",
-        monthElement: "monthElement",
-        dayOfWeekElememt: "dayOfWeekElement",
-        dayOfMonthElement: "dayOfMonthElement",
-        yearElement: "yearElement",
-        timeDisplay: "timeDisplay",
-        dayOfWeekSeperator: "dayOfWeekSeperator",
-        dateDisplay: "dateDisplay",
+    private ElementIdSelectors = {
+        hourFistDigit: "#hourFirstDigit",
+        hourSecondDigit: "#hourSecondDigit",
+        hourContainer: "#hourContainer",
+        minuteFirstDigit: "#minuteFirstDigit",
+        minuteSecondDigit: "#minuteSecondDigit",
+        minuteContainer: "#minuteContainer",
+        hourSeperator: "#hourSeperator",
+        monthElement: "#monthElement",
+        dayOfWeekElememt: "#dayOfWeekElement",
+        dayOfMonthElement: "#dayOfMonthElement",
+        yearElement: "#yearElement",
+        timeDisplay: "#timeDisplay",
+        dayOfWeekSeperator: "#dayOfWeekSeperator",
+        dayOfMonthSeperator : "#dayOfMonthSeperator",
+        dateDisplay: "#dateDisplay",
     }
 
-    private Minute = -1;
-    private Hour = -1;
-    private Day = -1;
-    private DayOfWeek = -1;
-    private Month = "";
-    private Year = -1;
-    private HourSeperator = "";
-    private MinuteSeperator = "";
-    private DayOfWeekSeperator = "";
+    private HourFirstDigitValue : string = "";
+    private HourSecondDigitValue: string = "";
+    private MinuteFirstDigitValue : string = "";
+    private MinuteSecondDigitValue : string = "";
+    private MonthValue :string = "";
+    private DayOfWeekValue: string = "";
+    private DayOfMonthValue: string = "";
+    private YearValue: string = "";
     
-    private daysOfWeek = [
-        "Monday", "Tuesday", "Wenesday", "Thursday", "Friday", "Saturday", "Sunday"
-    ];
-
-    private Months = [
-        "January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
-    ];
-
     private classes = {
         digit: "digit",
     };
@@ -47,7 +39,7 @@ export class TimeApp extends App {
     private updateLoopId = -1;
     private elementDict : { [id :string ] : HTMLElement};
 
-
+    private ParentHTML : HTMLElement | null = null;
 
     constructor() {
         super();
@@ -55,53 +47,31 @@ export class TimeApp extends App {
        
     }
     clientOnly() {
-        return true;
+        return false;
     }
+
     getUIQuery() {
-        return new TimeAppQuery();
+        return new TimeAppUIQuery();
     }
+
     onInit() {
     }
+
     getName() {
         return "timeApp";
     }
 
     onInitialRender(parentElement : HTMLElement) {
-        parentElement.appendChild(this.buildTimeDisplayHTML());
-        parentElement.appendChild(this.buildDateDisplayHTML());
+        this.ParentHTML = parentElement;
         this.updateUI();
-        this.updateLoopId = setInterval(this.updateUI.bind(this), 1000);
+        this.updateLoopId = setInterval(this.updateUI.bind(this), 10000);
     }
+
     updateUI() {
         const update = new TimeAppQuery();
-        const currentDate = new Date();
-        QueryDefinition.SetResponseVals(update, { key: "Minute", value: currentDate.getMinutes() }, { key: "Hour", value: currentDate.getHours() }, { key: "Day", value: currentDate.getDate() }, { key: "DayOfWeek", value: this.daysOfWeek[currentDate.getDay()] }, { key: "Month", value: currentDate.getMonth() }, { key: "Year", value: currentDate.getFullYear() }, { key: "HourSeperator", value: ":" }, { key: "MinuteSeperator", value: ":" }, { key: "DayOfWeekSeperator", value: ",&nbsp" });
-        this.queryComplete(update);
+        $(document).trigger("RequestQuery", [update, this]);
     }
-    buildDateDisplayHTML() {
-        const parentElement = this.buildSingleDiv(this.elementIds.dateDisplay);
-        parentElement.appendChild(this.buildSingleDiv(this.elementIds.dayOfWeekElememt, this.classes.digit));
-        parentElement.appendChild(this.buildSingleDiv(this.elementIds.dayOfWeekSeperator, this.classes.digit));
-        parentElement.appendChild(this.buildSingleDiv(this.elementIds.monthElement, this.classes.digit));
-        parentElement.appendChild(this.buildSingleDiv(this.elementIds.yearElement, this.classes.digit));
-        return parentElement;
-    }
-    buildTimeDisplayHTML() {
-        const parentElement = this.buildSingleDiv(this.elementIds.timeDisplay);
-        const hourHTML = this.buildHourHTML();
-        const minuteHTML = this.buildMinuteHTML();
-        const seperatorHTML = this.buildSingleDiv(this.elementIds.hourSeperator, this.classes.digit);
-        parentElement.appendChild(hourHTML);
-        parentElement.appendChild(seperatorHTML);
-        parentElement.appendChild(minuteHTML);
-        return parentElement;
-    }
-    buildHourHTML() {
-        return this.buildTwoDigitElement(this.elementIds.hourFistDigit, this.elementIds.hourSecondDigit, this.elementIds.hourContainer);
-    }
-    buildMinuteHTML() {
-        return this.buildTwoDigitElement(this.elementIds.minuteFirstDigit, this.elementIds.minuteSecondDigit, this.elementIds.minuteContainer);
-    }
+
     buildSingleDiv(elementID : string, ...classList : string[]) {
         let newElement = document.createElement("div");
         newElement.id = elementID;
@@ -121,50 +91,80 @@ export class TimeApp extends App {
         return parentElement;
     }
 
+    getParentElement() : HTMLElement { 
+        if(this.ParentHTML === null) {
+            return document.createElement("div");
+        }
+        return this.ParentHTML;
+    }
+
+
     queryComplete(queryDef : TimeAppQuery) {
-        const currentDate = new Date();
-        QueryDefinition.SetResponseVals(queryDef, { Minute: currentDate.getMinutes(),
-            Hour: currentDate.getHours(),
-            Day: currentDate.getDate(),
-            DayOfWeek: this.daysOfWeek[currentDate.getDay()],
-            Month: currentDate.getMonth(),
-            Year: currentDate.getFullYear(),
-            HourSeperator: ":",
-            MinuteSeperator: ":",
-            DayOfWeekSeperator: ",&nbsp" });
-
         const queryResults = queryDef.GetResults();
+        const parentElement = this.getParentElement();
 
-        if (queryResults.Hour != this.Hour) {
-            const displayVal = (queryResults.Hour > 12) ? queryResults.Hour - 12 : queryResults.Hour;
-            this.elementDict[this.elementIds.hourFistDigit].innerText = displayVal >= 10 ? (displayVal + "").charAt(0) : " ";
-            this.elementDict[this.elementIds.hourSecondDigit].innerText = displayVal % 10 + "";
-            this.Hour = queryResults.Hour;
+        if (queryResults.HourFirstDigit  != this.HourFirstDigitValue) {
+            const hourFirstDigit = parentElement.querySelector(this.ElementIdSelectors.hourFistDigit);
+            if(hourFirstDigit) {
+                this.HourFirstDigitValue = queryResults.HourFirstDigit;
+                hourFirstDigit.innerHTML = this.HourFirstDigitValue;
+            }
         }
-        if (queryResults.Minute != this.Minute) {
-            this.elementDict[this.elementIds.minuteFirstDigit].innerText = queryResults.Minute >= 10 ? (queryResults.Minute + "").charAt(0) : "0";
-            this.elementDict[this.elementIds.minuteSecondDigit].innerText = queryResults.Minute % 10 + "";
-            this.Minute = queryResults.Minute;
+
+        if (queryResults.HourSecondDigit  != this.HourSecondDigitValue) {
+            const hourSecondDigit = parentElement.querySelector(this.ElementIdSelectors.hourSecondDigit);
+            if(hourSecondDigit) {
+                this.HourSecondDigitValue = queryResults.HourSecondDigit;
+                hourSecondDigit.innerHTML = this.HourFirstDigitValue;
+            }
         }
-        if (queryResults.HourSeperator != this.HourSeperator) {
-            this.elementDict[this.elementIds.hourSeperator].innerText = queryResults.HourSeperator;
-            this.HourSeperator = queryResults.HourSeperator;
+
+        if (queryResults.MinuteFirstDigit  != this.MinuteFirstDigitValue) {
+            const minuteFirstDigit = parentElement.querySelector(this.ElementIdSelectors.minuteFirstDigit);
+            if(minuteFirstDigit) {
+                this.MinuteFirstDigitValue = queryResults.MinuteFirstDigit;
+                minuteFirstDigit.innerHTML = this.MinuteFirstDigitValue;
+            }
         }
-        if (queryResults.DayOfWeek != this.DayOfWeek) {
-            this.elementDict[this.elementIds.dayOfWeekElememt].innerText = queryResults.DayOfWeek + "";
-            this.DayOfWeek = queryResults.DayOfWeek;
+
+        if (queryResults.MinuteSecondDigit  != this.MinuteSecondDigitValue) {
+            const minuteSecondDigit = parentElement.querySelector(this.ElementIdSelectors.minuteSecondDigit);
+            if(minuteSecondDigit) {
+                this.MinuteSecondDigitValue = queryResults.MinuteSecondDigit;
+                minuteSecondDigit.innerHTML = this.MinuteSecondDigitValue;
+            }
         }
-        if (queryResults.Month != this.Month) {
-            this.elementDict[this.elementIds.monthElement].innerText = this.Months[Number(queryResults.Month)];
-            this.Month = queryResults.Month;
+
+        if (queryResults.DayOfWeek  != this.DayOfWeekValue) {
+            const dayOfWeek = parentElement.querySelector(this.ElementIdSelectors.dayOfWeekElememt);
+            if(dayOfWeek) {
+                this.DayOfWeekValue = queryResults.DayOfWeek;
+                dayOfWeek.innerHTML = this.DayOfWeekValue;
+            }
         }
-        if (queryResults.DayOfWeekSeperator != this.DayOfWeekSeperator) {
-            this.elementDict[this.elementIds.dayOfWeekSeperator].innerText = queryResults.DayOfWeekSeperator;
-            this.DayOfWeekSeperator = queryResults.DayOfWeekSeperator;
+
+        if (queryResults.Month  != this.MonthValue) {
+            const monthValue = parentElement.querySelector(this.ElementIdSelectors.monthElement);
+            if(monthValue) {
+                this.MonthValue = queryResults.Month;
+                monthValue.innerHTML = this.MonthValue;
+            }
         }
-        if (queryResults.Year != this.Year) {
-            this.elementDict[this.elementIds.yearElement].innerText = queryResults.Year + "";
-            this.Year = queryResults.Year;
+
+        if (queryResults.DayOfMonth  != this.DayOfMonthValue) {
+            const dayOfMonthValue = parentElement.querySelector(this.ElementIdSelectors.dayOfMonthElement);
+            if(dayOfMonthValue) {
+                this.DayOfMonthValue = queryResults.DayOfMonth;
+                dayOfMonthValue.innerHTML = this.DayOfMonthValue;
+            }
+        }
+
+        if (queryResults.Year  != this.YearValue) {
+            const yearElement = parentElement.querySelector(this.ElementIdSelectors.yearElement);
+            if(yearElement) {
+                this.YearValue = queryResults.Year;
+                yearElement.innerHTML = this.YearValue;
+            }
         }
     }
 }

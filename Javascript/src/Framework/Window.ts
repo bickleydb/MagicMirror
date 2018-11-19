@@ -178,7 +178,11 @@ class WindowBase {
 
 
     applyQueryResponse(queryDef : QueryDefinition, owningApp : App,  data? : any, status?:string)  {
-        const dataObject = JSON.parse(data);
+        
+        let dataObject = data;
+        if(typeof data === "string") {
+            dataObject = JSON.parse(data);
+        }
         QueryDefinition.SetResponseVals(queryDef,dataObject);
         owningApp.queryComplete(queryDef);
     }
