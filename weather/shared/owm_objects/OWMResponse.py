@@ -8,6 +8,7 @@ from . import OWMWindValues
 
 class OWMResponse:
     def __init__(self, jsonValue):
+        print(jsonValue)
         coordinates = jsonValue["coord"]
         weather_list = jsonValue["weather"]
         self.jsonValue = jsonValue
@@ -27,7 +28,6 @@ class OWMResponse:
         self.wind_object = OWMWindValues.OWMWindValues(
             date=jsonValue["dt"],
             wind_speed=jsonValue["wind"]["speed"],
-            wind_deg=jsonValue["wind"]["deg"]
         )
 
         self.main_weather = OWMMainValues.OWMMainValues(

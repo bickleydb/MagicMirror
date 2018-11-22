@@ -12,4 +12,4 @@ class TextStatementModel(models.Model):
         return TextStatementModel.objects
 
     def __str__(self):
-        return str(self.statement_source) +" : " + self.statement_textd
+        return str(self.statement_source) +" : " + self.statement_text

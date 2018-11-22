@@ -1,0 +1,70 @@
+.currentTemp {
+    color:black;
+    background:lightgray;
+}
+
+.verticalColumn {
+    display:flex;
+    flex-direction: column;
+    margin:0 auto;
+}
+
+.name {
+    width:100%;
+    flex-grow:1;
+    font-size:0.75em;
+    text-align: center;
+    font-family: 'Work Sans', sans-serif;
+}
+
+.tempSection {
+    flex-grow: 1;
+    text-align: center;
+    font-size:2em;
+}
+
+.tempContainer {
+    display: flex;
+    position: relative;
+    width:100%;
+}
+
+
+.tempEntry {
+    width:33%;
+    display:flex;
+    height:64px;
+    border-radius:6px;
+}
+
+.weatherDetails {
+    width:100%;
+    height:200px;
+    display:flex;
+    padding-top:10px;
+    font-size:20px;
+}
+
+.smallIconContainer {
+    padding-top:0.05em;
+}
+
+.percipitation{
+    display:flex;
+    text-align: center;
+}
+
+.mainIcon {
+    flex-grow:2;
+    height:100%;
+}
+
+.largeIcon {
+    font-size:5em;
+    text-align: center;
+}
+
+.smallText {
+    padding-bottom: 0.4em;
+}
+

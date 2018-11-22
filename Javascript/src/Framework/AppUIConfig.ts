@@ -83,10 +83,6 @@ export class AppUIConfig {
     }
 
     private ApplyRelativeSizeBaselineStyles(element : HTMLElement) {
-        const containerRect = element.getBoundingClientRect();
-        element.style.fontSize = containerRect.width + "px";
-        element.style.width = containerRect.width + "px";
-        element.style.height = containerRect.height + "px";
         element.style.position = "relative";
     }
 

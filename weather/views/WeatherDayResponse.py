@@ -10,7 +10,7 @@ class WeatherDayResponse:
         return (value * 9)/5 - 459.67
 
     def toHttp(self):
-        template = loader.get_template('weather/widget/thing.html')
+        template = loader.get_template('weather/widget/new_template.html')
         return template.render({
             "main_temp": self.ConvertKelvinToFaren(self.weatherObject.main_temp),
             "high_temp": self.ConvertKelvinToFaren(self.weatherObject.high_temp),

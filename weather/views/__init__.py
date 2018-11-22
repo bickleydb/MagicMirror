@@ -22,8 +22,9 @@ def update_forcast(request):
 
 def index(request):
     weather_repo = WeatherRepo()
-    template = loader.get_template('weather/widget/weather_index.html')
+    template = loader.get_template('weather/widget/new_template.html')
     today_weather = weather_repo.get_today_weather(request.user)
+    print (today_weather.rain_amt)
     return HttpResponse(template.render({
         "main_temp": ConvertingFunctions.kelvinToFaren(today_weather.main_temp),
         "high_temp": ConvertingFunctions.kelvinToFaren(today_weather.high_temp),

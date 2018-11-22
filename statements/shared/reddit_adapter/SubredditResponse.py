@@ -5,6 +5,7 @@ class subreddit_response():
 
     def __init__(self, backingJSON):
         self.raw_json = backingJSON
+        print("JSON: " + str(backingJSON))
         data =  self.raw_json["data"]
         list_of_children =  data["children"]
 

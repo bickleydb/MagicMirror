@@ -1,0 +1,57 @@
+<div class="tempContainer">
+    <div class="tempEntry currentTemp">
+        <div class="verticalColumn">
+            <div class="name">
+                Current
+            </div>
+            <div class="tempSection">
+                    {{main_temp|floatformat:0}}&deg
+            </div>
+        </div>
+    </div>
+    <div class="tempEntry">
+        <div class="verticalColumn">
+            <div class="name">
+                Low
+            </div>
+            <div class="tempSection">
+                {{low_temp|floatformat:0}}&deg
+            </div>
+        </div>
+    </div>
+    <div class="tempEntry">
+        <div class="verticalColumn">
+            <div class="name">
+                High
+            </div>
+            <div class="tempSection">
+                {{high_temp|floatformat:0}}&deg
+            </div>
+        </div>
+    </div>
+</div>
+<div class = "weatherDetails">
+    <div class="percipitation verticalColumn">
+        {% if rain_amt != None %}
+        <div class="smallIconContainer">
+            <i class="wi wi-raindrop"></i>
+        </div>
+        <div class="smallText">
+            {{rain_amt}}"
+        </div>
+        {% endif %}
+        {% if snow_amt != None %}
+        <div class="smallIconContainer">
+            <i class="wi wi-snowflake-cold"></i>
+        </div>
+        <div class="smallText">
+            {{snow_amt}}"
+        </div>
+        {% endif %}
+    </div>
+    <div class="mainIcon">
+        <div class="largeIcon">
+            <i class="wi wi-owm-{{icon}}"></i>
+        </div>
+    </div>
+</div>

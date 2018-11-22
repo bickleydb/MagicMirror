@@ -8,7 +8,7 @@ from statements.shared.repositories.StatementRepo import StatementRepo
 
 def updateDatabase(request): 
     statementRepo = StatementRepo()
-    dbRef.update_groups()
+    statementRepo.update_groups()
     return HttpResponse([])
 
 def get_random_value(request):

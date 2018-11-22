@@ -115,7 +115,7 @@ export class TimeApp extends App {
             const hourSecondDigit = parentElement.querySelector(this.ElementIdSelectors.hourSecondDigit);
             if(hourSecondDigit) {
                 this.HourSecondDigitValue = queryResults.HourSecondDigit;
-                hourSecondDigit.innerHTML = this.HourFirstDigitValue;
+                hourSecondDigit.innerHTML = this.HourSecondDigitValue;
             }
         }
 

@@ -57,7 +57,7 @@ class StatementRepo(IStatementRepo.IStatementRepo):
                     self.save_request(request)
 
     def save_request(self, responseValue):
-        statement_source = self.get_source(responseValue.get_site(), responseValue.get_author())
+        statement_source = self.get_source(responseValue.get_site(), responseValue.get_source())
         new_statement = TextStatementModel(
             statement_text=responseValue.get_text(),
             statement_author=responseValue.get_author(),

@@ -8,6 +8,9 @@ class subreddit_thread():
     def get_site(self):
         return "RE"
 
+    def get_source(self):
+        return self.get_subsite()
+
     def get_subsite(self):
         return self.get_subreddit()
 

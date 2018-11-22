@@ -5,7 +5,7 @@ from statements.shared.reddit_adapter import SubredditResponse
 import statements.shared.reddit_adapter
 
 class SubredditRequest():
-    urlPattern = "https://www.reddit.com/r/{}/{}/.json?limit={}?raw_json=1"
+    urlPattern = "https://www.reddit.com/{}/{}.json?limit={}?raw_json=1"
 
     def __init__(self, subreddit="all", queryType="hot",limit=statements.shared.reddit_adapter.NUM_POSTS ,startingPoint=0):
         self.subreddit = subreddit
@@ -15,11 +15,13 @@ class SubredditRequest():
 
     def __str__(self):
         return self.urlPattern.format(
-            self.subreddit, 
+            self.subreddit,
+            self.query_type,
             self.limit
         )
 
     def get_data(self):
+        print(str(self))
         response_object = json.loads(
             requests.get(str(self),
                          headers={'User-agent':
