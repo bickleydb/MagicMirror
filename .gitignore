@@ -3,8 +3,6 @@ migrations
 configuration.json
 .vscode
 __pycache__
-typings.json
-package-lock.json
 node/modules
 Design
 Design/*
