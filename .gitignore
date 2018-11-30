@@ -18,3 +18,4 @@ Javascript/node_modules/*
 manage.py
 TestQuery*
 *.svg
+Dockerfile

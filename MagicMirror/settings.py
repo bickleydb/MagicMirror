@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'splashpage.apps.SplashPageConfig',
     'traffic.apps.TrafficConfig',
     'timeapp.apps.TimeappConfig',
+    'multiapp.apps.MultiappConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

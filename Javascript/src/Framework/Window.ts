@@ -59,7 +59,7 @@ class WindowBase {
 
     startLoadingSequence() : void {
         const MagicMirrorConfigQuery = this.getMagicMirrorConfig();
-        const nextQuery = this.getApplicationList(MagicMirrorConfigQuery, this.setupApplicationList.bind(this));
+        this.getApplicationList(MagicMirrorConfigQuery, this.setupApplicationList.bind(this));
     }
 
     getApplicationList(prevQuery : JQuery.jqXHR, onComplete : QueryResponseFunction ) {
@@ -161,7 +161,6 @@ class WindowBase {
     }
 
     createBaseAppContainer() : HTMLElement {
-
         const baseContainer = document.createElement("div");
         baseContainer.classList.add("magicMirrorContainer");
         baseContainer.classList.add("mirrorContainer");
@@ -178,7 +177,6 @@ class WindowBase {
 
 
     applyQueryResponse(queryDef : QueryDefinition, owningApp : App,  data? : any, status?:string)  {
-        
         let dataObject = data;
         if(typeof data === "string") {
             dataObject = JSON.parse(data);
@@ -217,7 +215,6 @@ class WindowBase {
     attachEventHandlers() : void {
         $(document).on("RequestQuery", $.proxy(this.requestQueryCallback,this));
         $(document).on("RequestClose", $.proxy(this.requestCloseApplication,this));
-
     }
 }
     

@@ -2,7 +2,7 @@ import requests
 import json
 
 from . import RouteQuery
-from traffic import USE_TESTING_RESPONSES, TEST_RESPONSE_DIR
+from traffic import USE_TESTING_RESPONSES
 
 from traffic.shared.responses import GoogleResponseObject
 

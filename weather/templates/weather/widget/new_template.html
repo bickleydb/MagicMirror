@@ -1,31 +1,31 @@
 <div class="tempContainer">
     <div class="tempEntry currentTemp">
         <div class="verticalColumn">
-            <div class="name">
+            <div class="name secondaryFont">
                 Current
             </div>
-            <div class="tempSection">
-                    {{main_temp|floatformat:0}}&deg
+            <div class="tempSection primaryFont">
+                    {{main_temp|floatformat:0}}{{tempUnit}}
             </div>
         </div>
     </div>
     <div class="tempEntry">
         <div class="verticalColumn">
-            <div class="name">
+            <div class="name secondaryFont">
                 Low
             </div>
-            <div class="tempSection">
-                {{low_temp|floatformat:0}}&deg
+            <div class="tempSection primaryFont">
+                {{low_temp|floatformat:0}}{{tempUnit}}
             </div>
         </div>
     </div>
     <div class="tempEntry">
         <div class="verticalColumn">
-            <div class="name">
+            <div class="name secondaryFont">
                 High
             </div>
-            <div class="tempSection">
-                {{high_temp|floatformat:0}}&deg
+            <div class="tempSection primaryFont">
+                {{high_temp|floatformat:0}}{{tempUnit}}
             </div>
         </div>
     </div>

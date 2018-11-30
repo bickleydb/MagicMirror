@@ -35,3 +35,11 @@ body {
     height : calc(100%);
     overflow: hidden;
 }
+
+.primaryFont {
+    font-family: 'Quicksand', sans-serif;
+}
+
+.secondaryFont {
+    font-family: 'Quicksand', sans-serif;
+}
