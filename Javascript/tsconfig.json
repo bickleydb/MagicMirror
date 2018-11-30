@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "module": "amd",
+        "noImplicitAny": true,
+        "sourceMap": true,
+        "strict": true,
+        "noImplicitReturns": true,
+        "outDir" : "bundler",
+        "target": "es6",
+        "allowSyntheticDefaultImports": true
+    },
+
+    "baseUrl": "types",
+    "typeRoots": ["types"],
+    "compileOnSave": true,
+
+    "include": [
+        "src/**/*.ts",
+        "src/*.ts"
+    ]
+}
