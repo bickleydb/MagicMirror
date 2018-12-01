@@ -49,7 +49,7 @@ export class StatementApp extends App {
 
     startUILoop() : void {
         this.updateUILoop();
-        this.updateUITimerId = setInterval(this.updateUILoop.bind(this), 100000);
+        this.updateUITimerId = window.setInterval(this.updateUILoop.bind(this), 100000);
     }
 
     updateUILoop() : void {

@@ -64,7 +64,7 @@ export class TimeApp extends App {
     onInitialRender(parentElement : HTMLElement) {
         this.ParentHTML = parentElement;
         this.updateUI();
-        this.updateLoopId = setInterval(this.updateUI.bind(this), 10000);
+        this.updateLoopId = window.setInterval(this.updateUI.bind(this), 10000);
     }
 
     updateUI() {
