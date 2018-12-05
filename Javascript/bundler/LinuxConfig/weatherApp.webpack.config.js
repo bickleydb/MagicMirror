@@ -1,7 +1,7 @@
 module.exports = {
     entry : "./WeatherApp/WeatherApp.js",
     output : {
-        filename:'../../../home/static/home/dist/WeatherApp.js',
+        filename:'/www/MagicMirror/MagicMirror/home/static/home/dist/WeatherApp.js',
     },
     mode : "development",
     
@@ -9,8 +9,8 @@ module.exports = {
         rules: [
             {
                 exclude : [
-                    "./Framework/*",
-                    "./Common/*",
+                    "/www/MagicMirror/MagicMirror/Framework/*",
+                    "/www/MagicMirror/MagicMirror/Common/*",
                 ]
             }
         ]
