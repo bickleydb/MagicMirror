@@ -1,3 +1,5 @@
+const path=require('Path')
+
 module.exports = {
     entry : "./StatementApp/StatementApp.js",
     output : {
@@ -10,7 +12,9 @@ module.exports = {
         rules: [
             {
                 exclude : [
-                    path.resolve(__dirname, "Framework/*")
+                    path.resolve(__dirname, "Framework/*"),
+                    path.resolve(__dirname, "Common/*"),
+                    path.resolve(__dirname, "Common/EventManager.js")
                 ]
             }
         ]

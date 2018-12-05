@@ -1,3 +1,5 @@
+const path=require('Path')
+
 module.exports = {
     entry : "./WeatherApp/WeatherApp.js",
     output : {
@@ -9,8 +11,8 @@ module.exports = {
         rules: [
             {
                 exclude : [
-                    "/www/MagicMirror/MagicMirror/Framework/*",
-                    "/www/MagicMirror/MagicMirror/Common/*",
+                    path.resolve(__dirname, "Framework/*"),
+                    path.resolve(__dirname, "Common/*"),
                 ]
             }
         ]
