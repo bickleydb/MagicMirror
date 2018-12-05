@@ -1,4 +1,4 @@
-const path=require('Path')
+const path=require('path')
 
 module.exports = {
     entry : "./StatementApp/StatementApp.js",
