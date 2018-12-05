@@ -120,7 +120,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATIC_ROOT = ""
+STATIC_ROOT = "/www/static"
 
 
 # Static files (CSS, JavaScript, Images)
