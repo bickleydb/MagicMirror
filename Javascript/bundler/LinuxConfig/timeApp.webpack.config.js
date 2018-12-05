@@ -3,7 +3,7 @@ const path=require('path')
 module.exports = {
     entry : "./TimeApp/TimeApp.js",
     output : {
-        filename:'/www/MagicMirror/MagicMirror/home/static/home/dist/timeApp.js',
+        filename:'../../..//home/static/home/dist/timeApp.js',
     },
     mode : "development",
     

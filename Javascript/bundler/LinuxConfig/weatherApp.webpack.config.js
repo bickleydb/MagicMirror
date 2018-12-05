@@ -3,7 +3,7 @@ const path=require('path')
 module.exports = {
     entry : "./WeatherApp/WeatherApp.js",
     output : {
-        filename:'/www/MagicMirror/MagicMirror/home/static/home/dist/WeatherApp.js',
+        filename:'/../../../home/static/home/dist/WeatherApp.js',
     },
     mode : "development",
     
