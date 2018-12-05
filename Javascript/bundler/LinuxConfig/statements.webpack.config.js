@@ -10,9 +10,7 @@ module.exports = {
         rules: [
             {
                 exclude : [
-                    "./Framework/*",
-                    "./Common/*",
-                    "./Common/EventManager.js"
+                    path.resolve(__dirname, "Framework/*")
                 ]
             }
         ]
