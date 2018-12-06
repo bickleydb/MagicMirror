@@ -4,9 +4,11 @@ configuration.json
 .vscode
 __pycache__
 node/modules
+!framework.webpack.config.js 
 Design
 Design/*
 *.js
+!*.webpack.config.js
 *.js.map
 *.Javascript
 *.jst
