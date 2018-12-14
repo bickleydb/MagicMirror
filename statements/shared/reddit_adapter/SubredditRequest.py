@@ -4,10 +4,15 @@ import statements.shared
 from statements.shared.reddit_adapter import SubredditResponse
 import statements.shared.reddit_adapter
 
+
 class SubredditRequest():
     urlPattern = "https://www.reddit.com/{}/{}.json?limit={}?raw_json=1"
 
-    def __init__(self, subreddit="all", queryType="hot",limit=statements.shared.reddit_adapter.NUM_POSTS ,startingPoint=0):
+    def __init__(self, subreddit="all",
+                 queryType="hot",
+                 limit=statements.shared.reddit_adapter.NUM_POSTS,
+                 startingPoint=0):
+
         self.subreddit = subreddit
         self.query_type = queryType
         self.limit = limit
@@ -26,8 +31,8 @@ class SubredditRequest():
             requests.get(str(self),
                          headers={'User-agent':
                                   statements.shared.reddit_adapter.USER_AGENT
-                                 }
-                        ).text)
+                                  }
+                         ).text)
         return SubredditResponse.subreddit_response(response_object)
 
     def get_site(self):

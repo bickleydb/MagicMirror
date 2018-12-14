@@ -1,10 +1,11 @@
 import json
 
+
 class subreddit_thread():
 
     def get_text(self):
         return self.get_title()
-  
+
     def get_site(self):
         return "RE"
 
@@ -30,9 +31,9 @@ class subreddit_thread():
             post_id=backingJSON['id'],
             post_name=backingJSON['name'], 
             author=backingJSON['author'], 
-            created_time=backingJSON['created'], 
-            is_censored=backingJSON['over_18'], 
-            is_spoiler=backingJSON['spoiler'], 
+            created_time=backingJSON['created'],
+            is_censored=backingJSON['over_18'],
+            is_spoiler=backingJSON['spoiler'],
             has_visited=backingJSON['visited'])
 
         self.links = thread_links(
@@ -87,12 +88,18 @@ class subreddit_thread():
         return self.links.get_permalink()
 
     def __str__(self):
-        return self.get_author() + " on " + self.get_subreddit() + "\n" + self.get_title() + "\n" + self.get_text()
+        return "{} on {} \n {} \n {}".format(
+            self.get_author(),
+            self.get_subreddit(),
+            self.get_title(),
+            self.get_text()
+        )
+
 
 class thread_text:
 
-    def __init__(self, text="", html_text="", title="" ):
-        self.text = text 
+    def __init__(self, text="", html_text="", title=""):
+        self.text = text
         self.html_text = html_text
         self.title = title
 
@@ -105,8 +112,18 @@ class thread_text:
     def get_title(self):
         return self.title
 
+
 class thread_metadata:
-    def __init__(self, post_id="",post_name="",author="",created_time=0,is_censored=False,is_spoiler=False,has_visited=False,):
+    def __init__(self,
+                 post_id="",
+                 post_name="",
+                 author="",
+                 created_time=0,
+                 is_censored=False,
+                 is_spoiler=False,
+                 has_visited=False,
+                 ):
+
         self.post_id = post_id
         self.author = author
         self.created_time = created_time
@@ -136,6 +153,7 @@ class thread_metadata:
     def get_post_name(self):
         return self.post_name
 
+
 class thread_links:
 
     def __init__(self, url="", permaLink=""):
@@ -148,16 +166,18 @@ class thread_links:
     def get_url(self):
         return self.url
 
+
 class subreddit_metadata:
     def __init__(self, subreddit="", id=""):
-        self.subreddit=subreddit
-        self.subreddit_id=id
-    
+        self.subreddit = subreddit
+        self.subreddit_id = id
+
     def get_subreddit(self):
         return self.subreddit
 
     def get_subreddit_id(self):
         return self.subreddit_id
+
 
 class reddit_stats:
 
@@ -165,7 +185,6 @@ class reddit_stats:
     num_up_votes = 0
     num_down_votes = 0
     num_comments = 0
-
 
     def __init__(self, score=0, ups=0, downs=0, num_comments=0):
         self.total_score = score
