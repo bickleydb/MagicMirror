@@ -1,6 +1,13 @@
 
 class OWMMainValues:
-    def __init__(self, date=0, temp=0, pressure=0, humid=0, min_temp=0, max_temp=0):
+    def __init__(self,
+                 date=0,
+                 temp=0,
+                 pressure=0,
+                 humid=0,
+                 min_temp=0,
+                 max_temp=0):
+
         self.temp = temp
         self.pressure = pressure
         self.humid = humid

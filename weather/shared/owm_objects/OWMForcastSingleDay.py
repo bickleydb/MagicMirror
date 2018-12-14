@@ -1,10 +1,9 @@
-
 from . import OWMMainValues, OWMWeatherValues, OWMWindValues, OWMCloudValues 
+
 
 class OWMForcastSingleDay:
     def __init__(self, jsonData):
         self.parseMain(jsonData)
-
 
     def parseMain(self, jsonData):
         self.dateStr = jsonData["dt"]
@@ -34,7 +33,7 @@ class OWMForcastSingleDay:
 
     def getDescription(self):
         return self.weatherVals.desc
-    
+
     def getHighTemp(self):
         return self.mainVals.max_temp
 
