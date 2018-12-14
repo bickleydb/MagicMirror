@@ -2,12 +2,11 @@ import random
 from datetime import datetime, timedelta
 from statements.models.TextStatementModel import TextStatementModel
 from statements.models.TextStatementSourceModel import TextSatementSourceModel
-
-
 from statements.shared.reddit_adapter.SubredditRequest import SubredditRequest
 from statements.shared.twitter_adapter import twitter_request
 
 from . import IStatementRepo
+
 
 class StatementRepo(IStatementRepo.IStatementRepo):
 
@@ -21,9 +20,10 @@ class StatementRepo(IStatementRepo.IStatementRepo):
     def delete_existing_statements(self, groups_to_delete):
         statement_manager = TextStatementModel.get_manager()
         for group in groups_to_delete:
-            statement_set = statement_manager.all().filter(statement_source=group)
+            allStatements = statement_manager.all()
+            statement_set = allStatements.filter(statement_source=group)
             for statement in statement_set:
-                statement.delete() 
+                statement.delete()
 
     def delete_existing_groups(self, group_list):
         for group in group_list:
@@ -33,7 +33,6 @@ class StatementRepo(IStatementRepo.IStatementRepo):
         statement_manager = TextStatementModel.get_manager()
         statements = list(statement_manager.all())
         return random.choice(statements)
-
 
     def get_all_groups_to_update(self):
         time = self.get_lookback_time()
@@ -57,7 +56,8 @@ class StatementRepo(IStatementRepo.IStatementRepo):
                     self.save_request(request)
 
     def save_request(self, responseValue):
-        statement_source = self.get_source(responseValue.get_site(), responseValue.get_source())
+        site = responseValue.get_site()
+        statement_source = self.get_source(site, responseValue.get_source())
         new_statement = TextStatementModel(
             statement_text=responseValue.get_text(),
             statement_author=responseValue.get_author(),
@@ -67,12 +67,11 @@ class StatementRepo(IStatementRepo.IStatementRepo):
 
     def get_source(self, source_type, source_name):
         source_manager = TextSatementSourceModel.get_manager()
-        print(source_type + ";     " + source_type)
         source_inst, _ = source_manager.get_or_create(
             source_name=source_name,
             source_site=source_type,
             defaults={
-                "last_update_date_time" : datetime.now()
+                "last_update_date_time": datetime.now()
             }
         )
         return source_inst

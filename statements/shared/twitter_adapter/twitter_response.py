@@ -10,7 +10,7 @@ class twitterResponse():
 
     def get_json(self):
         return self.raw_json
-    
+
     def __iter__(self):
         return self
 
@@ -18,17 +18,18 @@ class twitterResponse():
         if(self.index == len(self.tweetList)):
             self.index = 0
             raise StopIteration
-        self.index =  self.index + 1
+        self.index = self.index + 1
         return self.tweetList[self.index-1]
 
     def __str__(self):
-        return_str=""
+        return_str = ""
         for result in self:
             return_str = return_str + str(result) + "\n"
         return return_str
 
     def get_list(self):
         return self.tweetList
+
 
 class tweet():
     def __init__(self, status_data):
@@ -40,7 +41,7 @@ class tweet():
         self.source = status_data.source
         self.text = status_data.text
         self.author = status_data.user.screen_name
-  
+
     def __str__(self):
         return "" + str(self.source) + "; " + str(self.author)
 
@@ -55,12 +56,12 @@ class tweet():
 
     def get_text(self):
         return self.text
-    
+
     def get_author(self):
         return self.author
-    
+
     def get_site(self):
         return "TW"
-    
+
     def get_subsite(self):
         return "@"+self.get_author()

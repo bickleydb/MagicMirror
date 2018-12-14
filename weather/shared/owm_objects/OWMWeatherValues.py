@@ -1,5 +1,10 @@
 class OWMWeatherValues:
-    def __init__(self, date=0, weather_id=0, weather_main="", desc="", icon=""):
+    def __init__(self,
+                 date=0,
+                 weather_id=0,
+                 weather_main="",
+                 desc="",
+                 icon=""):
         self.date = date
         self.weather_id = weather_id
         self.weather_main = weather_main

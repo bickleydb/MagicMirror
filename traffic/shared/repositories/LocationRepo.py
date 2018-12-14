@@ -1,5 +1,6 @@
 import traffic.models.LocationModel as LM
 
+
 class LocationRepo:
 
     def GetAllLocations(self):

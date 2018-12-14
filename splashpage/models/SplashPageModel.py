@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class SplashPageModel(models.Model):
 
     SplashPageName = models.CharField(max_length=20)
@@ -15,5 +16,5 @@ class SplashPageModel(models.Model):
         return self.SplashPageName
 
     class Meta:
-        verbose_name="Splash Page"
+        verbose_name = "Splash Page"
         verbose_name_plural = "Splash Page"

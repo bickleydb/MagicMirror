@@ -5,6 +5,7 @@ from traffic.models.Path import Path
 from traffic.models.PathEstimationModel import PathEstimationModel
 from traffic.models.PathLengthModel import PathLengthModel
 
+
 class LocationAdmin(admin.ModelAdmin):
     readonly_fields = ('uniqueId',)
 

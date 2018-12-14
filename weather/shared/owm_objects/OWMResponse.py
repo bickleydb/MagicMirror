@@ -14,12 +14,10 @@ class OWMResponse:
         self.jsonValue = jsonValue
         self.weather_list = []
 
-    
         self.sun_values = OWMSunValues.OWMSunValues(
             sunrise_time=jsonValue["sys"]["sunrise"],
             sunset_time=jsonValue["sys"]["sunset"]
         )
-
 
         self.cloud_object = OWMCloudValues.OWMCloudValues(
             cloud_status=jsonValue["clouds"]["all"]
@@ -38,17 +36,15 @@ class OWMResponse:
             max_temp=jsonValue["main"]["temp_max"],
             min_temp=jsonValue["main"]["temp_min"],
         )
-        
-        for i in range(0,len(weather_list)):
-            self.weather_list.append( OWMWeatherValues.OWMWeatherValues(
+
+        for i in range(0, len(weather_list)):
+            self.weather_list.append(OWMWeatherValues.OWMWeatherValues(
                 date=jsonValue["dt"],
                 weather_id=weather_list[i]["id"], 
                 weather_main=weather_list[i]["main"],
                 desc=weather_list[i]["description"],
                 icon=weather_list[i]["icon"]
-                
-            )  )
-        
+            ))
 
         self.coordinates = OWMCoordinateValues.OWMCoordinateValues(
             latitude=coordinates["lat"], 
@@ -60,7 +56,7 @@ class OWMResponse:
 
     def get_sunset_time(self):
         return self.sun_values.get_sunset_time()
-    
+
     def get_wind_speed(self):
         return self.wind_object.get_wind_speed()
 
