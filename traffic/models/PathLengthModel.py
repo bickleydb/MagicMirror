@@ -5,6 +5,9 @@ from . import Name_Max_Length
 
 class PathLengthModel(models.Model):
 
+    def seconds_name():
+        return _("Expected duration in seconds")
+
     pathInstance = models.ForeignKey("Path",
                                      on_delete=models.CASCADE,
                                      verbose_name=_("Path Instance"),
@@ -15,8 +18,7 @@ class PathLengthModel(models.Model):
 
     secondsPerTrip = models.IntegerField(verbose_name=seconds_name())
 
-    def seconds_name():
-        return _("Expected duration in seconds")
+
 
     def get_manager():
         return PathLengthModel.objects

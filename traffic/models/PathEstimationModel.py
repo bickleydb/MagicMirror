@@ -5,6 +5,9 @@ from . import Name_Max_Length
 
 class PathEstimationModel(models.Model):
 
+    def get_est_name():
+        return _("Best estimated guess for trip length")
+
     pathInstance = models.ForeignKey("Path",
                                      on_delete=models.CASCADE,
                                      verbose_name=_("Path Instance"),
@@ -12,9 +15,6 @@ class PathEstimationModel(models.Model):
 
     autoCompute = models.BooleanField("Autocompute?")
     expectedNumberSeconds = models.IntegerField(verbose_name=get_est_name())
-
-    def get_est_name():
-        return _("Best estimated guess for trip length")
 
     def get_manager():
         return PathEstimationModel.objects

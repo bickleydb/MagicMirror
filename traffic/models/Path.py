@@ -5,6 +5,12 @@ from . import Name_Max_Length
 
 class Path(models.Model):
 
+    def get_start_help_text():
+        return _("Starting position of the path")
+
+    def get_end_help_text():
+        return _("Ending position of the path")
+
     PathName = models.CharField(
             max_length=Name_Max_Length,
             help_text=_("Friendly name to refer to this path.")
@@ -23,11 +29,7 @@ class Path(models.Model):
                                        help_text=get_end_help_text()
                                        )
 
-    def get_start_help_text():
-        return _("Starting position of the path")
-
-    def get_end_help_text():
-        return _("Ending position of the path")
+   
 
     @staticmethod
     def get_manager():
