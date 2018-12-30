@@ -1,10 +1,10 @@
 from django.db import models
 from django.utils.translation import gettext as _
-
 from . import CSS_Length_Units
 from . import Bundle_Path_Max_Length
 from . import Name_Max_Length
 from . import Unit_Max_Length
+
 
 class ApplicationDefinitionModel(models.Model):
 
@@ -45,7 +45,6 @@ class ApplicationDefinitionModel(models.Model):
     def __str__(self):
         return self.name
 
-
     class Meta:
-        verbose_name="Application Definition"
+        verbose_name = "Application Definition"
         verbose_name_plural = "Application Definitions"

@@ -2,15 +2,16 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext as _
 
+
 class UserAppListBridgeModel(models.Model):
 
     user = models.ForeignKey(User,
-        on_delete=models.CASCADE
-    )
-    
+                             on_delete=models.CASCADE
+                             )
+
     app = models.ForeignKey('ApplicationDefinitionModel',
-        on_delete=models.CASCADE
-    )
+                            on_delete=models.CASCADE
+                            )
 
     def __str__(self):
         return self.user.username + " : " + self.app.name
@@ -20,6 +21,5 @@ class UserAppListBridgeModel(models.Model):
         return UserAppListBridgeModel.objects
 
     class Meta:
-        verbose_name=_("User App List")
+        verbose_name = _("User App List")
         verbose_name_plural = _("User App Lists")
-

@@ -15,10 +15,7 @@ class PathLengthModel(models.Model):
 
     record_date = models.DateField(auto_now=True)
     record_time = models.TimeField(auto_now=True)
-
     secondsPerTrip = models.IntegerField(verbose_name=seconds_name())
-
-
 
     def get_manager():
         return PathLengthModel.objects
@@ -29,4 +26,3 @@ class PathLengthModel(models.Model):
             str(self.record_date),
             str(self.record_time)
         )
-

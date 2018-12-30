@@ -3,13 +3,23 @@ from django.contrib import admin
 # Register your models here.
 from django.contrib import admin
 
-from .models import ApplicationCSSFileBridgeModel, ApplicationDefinitionModel, ApplicationUIBridgeModel,ApplicationUIConfigModel,CSSResourceModel,FontModel,MagicMirrorConfigModel,UserAppListBridgeModel
+from home.models.ModelExtender.PhoneNumberModel import PhoneNumberModel
+
+from .models import ApplicationCSSFileBridgeModel as CSSFileBridge
+from .models import ApplicationDefinitionModel as AppDef
+from .models import ApplicationUIBridgeModel as AppUIBridge
+from .models import ApplicationUIConfigModel as AppUIConfig
+from .models import CSSResourceModel as CSS
+from .models import FontModel as Fonts
+from .models import MagicMirrorConfigModel as MagicMirrorConfig
+from .models import UserAppListBridgeModel as UserAppList
 # Register your models here.
-admin.site.register(ApplicationDefinitionModel.ApplicationDefinitionModel)
-admin.site.register(ApplicationCSSFileBridgeModel.ApplicationCSSFileBridgeModel)
-admin.site.register(CSSResourceModel.CSSResourceModel)
-admin.site.register(MagicMirrorConfigModel.MagicMirrorConfigModel)
-admin.site.register(FontModel.FontModel)
-admin.site.register(ApplicationUIConfigModel.ApplicationUIConfigModel)
-admin.site.register(ApplicationUIBridgeModel.ApplicationUIBridgeModel)
-admin.site.register(UserAppListBridgeModel.UserAppListBridgeModel)
+admin.site.register(AppDef.ApplicationDefinitionModel)
+admin.site.register(CSSFileBridge.ApplicationCSSFileBridgeModel)
+admin.site.register(CSS.CSSResourceModel)
+admin.site.register(MagicMirrorConfig.MagicMirrorConfigModel)
+admin.site.register(Fonts.FontModel)
+admin.site.register(AppUIConfig.ApplicationUIConfigModel)
+admin.site.register(AppUIBridge.ApplicationUIBridgeModel)
+admin.site.register(UserAppList.UserAppListBridgeModel)
+admin.site.register(PhoneNumberModel)
