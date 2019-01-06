@@ -1,5 +1,4 @@
 db.sqlite3
-migrations
 configuration.json
 .vscode
 __pycache__
@@ -16,5 +15,5 @@ node_modules\*
 Javascript/node_modules/*
 manage.py
 TestQuery*
+DockerTestFile
 *.svg
-Dockerfile
