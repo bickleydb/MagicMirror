@@ -1,6 +1,6 @@
 FROM nginx
 RUN apt-get clean
-RUN apt-get update && apt-get -yq install python3 python3-pip nodejs git bash curl procps vim
+RUN apt-get update && apt-get -yq install python3 python3-pip nodejs git bash curl procps vim libpq-dev
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - 
 RUN apt-get -yq install npm
 RUN pip3 install virtualenv
