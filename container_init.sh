@@ -26,8 +26,3 @@ python3 ./manage.py collectstatic
 
 uwsgi --socket :8001 --module MagicMirror.wsgi &
 nginx -c /etc/nginx/sites-available/magicmirror_nginx.conf & 
-
-while :
-do
-	sleep 100000000
-done

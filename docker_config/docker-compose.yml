@@ -1,10 +1,17 @@
 version: '3'
+
 services :
   database:
-    image: postgres:latest
+    image: hypriot/rpi-mysql
+    volumes:
+      - data-volume:/var/lib/db
   magic_mirror:
     image: magicmirror:latest
+    command: python3 manage.py runserver
     ports:
-      - "1337:8000"
+      - "80:8000"
     depends_on:
       - database
+
+volumes:
+  data-volume
