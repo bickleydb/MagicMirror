@@ -3,7 +3,7 @@ from django.http import HttpResponse
 import json
 from traffic.shared.repositories import CalendarRepo
 import httplib2
-from oauth2client.contrib import gce
+# from oauth2client.contrib import gce
 
 
 def __getCalendarByName(name):
@@ -19,7 +19,7 @@ def getCalendarById(request):
 
 def getEventsInCalendar(request):
     name = request.GET["name"]
-    credentials = gce.AppAssertionCredentials(
-        scope='https://www.googleapis.com/auth/calendar.events.readonly'
-    )
-    http = credentials.authorize(httplib2.Http())
+    # credentials = gce.AppAssertionCredentials(
+    #   scope='https://www.googleapis.com/auth/calendar.events.readonly'
+    # )
+    # http = credentials.authorize(httplib2.Http())
