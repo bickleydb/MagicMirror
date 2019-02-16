@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
     entry : "./TimeApp/TimeApp.js",
     output : {
@@ -9,8 +11,8 @@ module.exports = {
         rules: [
             {
                 exclude : [
-                    "./Framework/*",
-                    "./Common/*",
+                    path.resolve(__dirname, "/Framework/"),
+                    path.resolve(__dirname, "/Common/")
                 ]
             }
         ]
