@@ -83,14 +83,15 @@ WSGI_APPLICATION = 'MagicMirror.wsgi.application'
 if "useRemoteDB" in os.environ:  
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'USER': os.environ["databaseUser"],
-            'NAME': os.environ["databaseName"],
-            'PASSWORD':  os.environ["databasePassword"],
-            'HOST': os.environ["databaseHostIP"],
-            'PORT': os.environ["databasePost"]
+            'ENGINE': 'django.db.backends.postgresql',
+            'USER': os.environ["databaseUser"] or "",
+            'NAME': os.environ["databaseName"] or "",
+            'PASSWORD':  os.environ["databasePassword"] or "",
+            'HOST': os.environ["databaseHostIP"] or "",
+            'PORT': os.environ["databasePost"] or ""
          }
     }
+    print(DATABASES)
 else:
     DATABASES = {
         'default': {

@@ -17,3 +17,10 @@ manage.py
 TestQuery*
 DockerTestFile
 *.svg
+traffic/views/token.json
+traffic/views/test.py
+traffic/views/credentials.json
+weather/weather-icons
+traffic/views/token.json
+db.json
+*.env
