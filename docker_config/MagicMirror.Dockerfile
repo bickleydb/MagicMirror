@@ -1,6 +1,6 @@
 FROM nginx
 RUN apt-get clean
-RUN apt-get update && apt-get -yq install python3 python3-pip nodejs git bash curl procps vim libpq-dev
+RUN apt-get update && apt-get -yq install python3 python3-pip nodejs git bash curl procps vim libpq-dev python3-httplib2 python3-oauthlib
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - 
 RUN apt-get -yq install npm
 RUN pip3 install virtualenv
@@ -10,7 +10,7 @@ RUN pip3 install virtualenv && \
     pip3 install Django && \
     pip3 install uwsgi && \
     pip3 install requests && \ 
-    pip3 install python-twitter
+    pip3 install python-twitter 
  RUN npm install -g typescript && \
     npm install -g webpack && \
     npm install -g webpack-cli &&\

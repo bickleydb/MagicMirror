@@ -2,9 +2,13 @@ version: '3'
 
 services :
   database:
-    image: hypriot/rpi-mysql
+    image: database
+    ports:
+      - "3306:3306"
     volumes:
-      - C:\Users\Daniel\Git\MagicMirror\Data
+      - /var/mirror
+    env_file:
+      - databasesecrets.env
   magic_mirror:
     image: magicmirror:latest
     command: python3 manage.py runserver
@@ -13,7 +17,7 @@ services :
     depends_on:
       - database
     env_file:
-      - secrets.env
+      - mirrorsecrets.env
 
 
 volumes:

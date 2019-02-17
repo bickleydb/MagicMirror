@@ -25,4 +25,4 @@ cd /www/MagicMirror/MagicMirror
 python3 ./manage.py collectstatic
 
 uwsgi --socket :8001 --module MagicMirror.wsgi &
-nginx -c /etc/nginx/sites-available/magicmirror_nginx.conf & 
+nginx -c /etc/nginx/sites-available/magicmirror_nginx.conf

@@ -38,9 +38,7 @@ tmpdir          = /tmp
 lc-messages-dir = /usr/share/mysql
 skip-external-locking
 
-key_buffer_size         = 16M
-max_allowed_packet      = 16M
 thread_stack            = 192K
 thread_cache_size       = 8
 myisam-recover-options  = BACKUP
-#max_connections        = 100s
+max_connections        = 100
