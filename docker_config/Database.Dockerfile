@@ -1,4 +1,4 @@
-FROM amd64/ubuntu
+FROM arm32v7/ubuntu
 RUN apt-get update && apt-get install -yq mysql-server ufw less git
 
 RUN mkdir -p /var/run/mysqld
