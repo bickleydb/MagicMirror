@@ -20,13 +20,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '^1&f&4nq6mrh^^#dj3)-y7$qh52qs#77^r^stpmngwdm!r73fi'
+SECRET_KEY = os.environ["djangoSecret"] or ""
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '[::1]',
+    os.environ["ipAddr"]
+]
 
 # Application definition
 
@@ -83,7 +87,7 @@ WSGI_APPLICATION = 'MagicMirror.wsgi.application'
 if "useRemoteDB" in os.environ:  
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql',
+            'ENGINE': 'django.db.backends.mysql',
             'USER': os.environ["databaseUser"] or "",
             'NAME': os.environ["databaseName"] or "",
             'PASSWORD':  os.environ["databasePassword"] or "",
