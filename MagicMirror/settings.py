@@ -20,12 +20,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ["djangoSecret"] or ""
+SECRET_KEY = os.environ.get("djangoSecret") or "fake_secret"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]', os.environ["ipAddr"]]
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '[::1]',
+    os.environ.get("ipAddr")
+]
+
 
 # Application definition
 
@@ -83,14 +89,13 @@ if "useRemoteDB" in os.environ:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'USER': os.environ["databaseUser"] or "",
-            'NAME': os.environ["databaseName"] or "",
-            'PASSWORD':  os.environ["databasePassword"] or "",
-            'HOST': os.environ["databaseHostIP"] or "",
-            'PORT': os.environ["databasePost"] or ""
+            'USER': os.environ.get("databaseUser"),
+            'NAME': os.environ.get("databaseName"),
+            'PASSWORD':  os.environ.get("databasePassword"),
+            'HOST': os.environ.get("databaseHostIP"),
+            'PORT': os.environ.get("databasePost")
          }
     }
-    print(DATABASES)
 else:
     DATABASES = {
         'default': {
