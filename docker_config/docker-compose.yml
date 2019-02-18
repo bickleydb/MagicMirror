@@ -18,7 +18,5 @@ services :
       - database
     env_file:
       - mirrorsecrets.env
-
-
 volumes:
-  data-volume: /var/lib/mysql
+  data-volume:
