@@ -23,7 +23,6 @@ cat settings.py linux_settings.txt > temp.out; cp temp.out settings.py
 
 cd /www/MagicMirror/MagicMirror
 python3 ./manage.py collectstatic
-python3 ./manage.py createsuperuser --username $AdminUsername --noinput
-
+echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('$AdminUsername', '$AdminEmail', '$AdminPass')" | python3 ./manage.py shell
 uwsgi --socket :8001 --module MagicMirror.wsgi &
 nginx -c /etc/nginx/sites-available/magicmirror_nginx.conf
