@@ -21,4 +21,4 @@ services :
 
 
 volumes:
-  data-volume:
+  data-volume: ~/MirrorData
