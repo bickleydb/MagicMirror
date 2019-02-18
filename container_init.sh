@@ -23,6 +23,7 @@ cat settings.py linux_settings.txt > temp.out; cp temp.out settings.py
 
 cd /www/MagicMirror/MagicMirror
 python3 ./manage.py collectstatic
+python3 ./manage.py createsuperuser --username $AdminUsername --noinput
 
 uwsgi --socket :8001 --module MagicMirror.wsgi &
 nginx -c /etc/nginx/sites-available/magicmirror_nginx.conf
