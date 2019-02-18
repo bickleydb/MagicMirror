@@ -6,7 +6,7 @@ services :
     ports:
       - "3306:3306"
     volumes:
-      - /var/mirror
+      - data-volume:/var/lib/mysql
     env_file:
       - databasesecrets.env
   magic_mirror:
