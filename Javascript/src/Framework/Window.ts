@@ -37,10 +37,8 @@ class WindowBase {
     private mainLoopId : number = -1;
     private uiStack : UIStack = new UIStack(0,0);
     private MirrorConfig : MagicMirrorConfig | null = null;
-
-
-    private readonly SERVER_URL = "http://127.0.0.1:8000";
-
+    
+    private readonly SERVER_URL = "http://192.168.1.104";
     private readonly START_URL = this.SERVER_URL + "/startup/";
     private readonly APP_LIST_URL = this.SERVER_URL + "/loadApplications";
     private readonly APP_LOAD_URL = this.SERVER_URL + "/loadApp/";
