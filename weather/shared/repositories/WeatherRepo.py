@@ -2,7 +2,7 @@ import datetime
 from weather.models.DailyWeatherModel import DailyWeatherModel
 from weather.models.WeatherForcastModel import WeatherForcastModel
 from weather.shared.owm_objects.OWMRequest import OWMRequest
-import weather.models.WeatherConfigurationUserBridge as WCUB
+from weather.models.WeatherConfigurationUserBridge import WeatherConfigurationUserBridge as WCUB
 
 
 class WeatherRepo:
@@ -34,7 +34,7 @@ class WeatherRepo:
         sunrise = data.get_sunrise_time()
         sunset = data.get_sunset_time()
         weather_record, _ = weather_manager.update_or_create(
-                date=str(self.get_today_date()),
+                date=str(self.get_today()),
                 defaults={
                      "location": currentLocation,
                      "description": data.get_weather_desc(),
