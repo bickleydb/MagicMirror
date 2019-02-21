@@ -12,12 +12,11 @@ export interface TimeAppQueryResult {
     Month: string,
     DayOfMonth: string,
     Year: string
-    
 }
 
 export class TimeAppQuery extends QueryDefinition {
 
-    private static URL_STRING = "http://127.0.0.1:8000/time/getTime";
+    private static URL_STRING = "/time/getTime";
 
 
     constructor() {

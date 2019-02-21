@@ -3,8 +3,6 @@ import { App } from "../Framework/App"
 
 
 export class WeatherApp extends App {
-
-
     private elementIds : { [vals : string] : string } = {
         currentTemp : "currentTemp",
         highTemp : "highTemp",
@@ -44,7 +42,7 @@ export class WeatherApp extends App {
     }
 
     getUIQuery() : QueryDefinition {
-        return new QueryDefinition("http://127.0.0.1:8000/weather/");
+        return new QueryDefinition("/weather/");
     }
 
     onInitialRender(parent_element : HTMLElement) : void {
@@ -52,6 +50,7 @@ export class WeatherApp extends App {
     }
 
     queryComplete(queryDef : QueryDefinition) : void {
+
     }
 
     cacheElements() : void {
