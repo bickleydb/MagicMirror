@@ -90,7 +90,6 @@ if "useRemoteDB" in os.environ:
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'USER': os.environ.get("databaseUser"),
-            'NAME': os.environ.get("databaseName"),
             'PASSWORD':  os.environ.get("databasePassword"),
             'HOST': os.environ.get("databaseHostIP"),
             'PORT': os.environ.get("databasePost")

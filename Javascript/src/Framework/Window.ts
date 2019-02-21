@@ -191,7 +191,7 @@ class WindowBase {
 
     requestQueryCallback(event : any, ...params : any[]) : void { 
         const requestedQuery = params[0] as QueryDefinition;
-        $.ajax(requestedQuery.URL, {
+        $.ajax(this.SERVER_URL+requestedQuery.URL, {
             data : requestedQuery.getParams(),
             success: this.applyQueryResponse.bind(this, requestedQuery, params[1]),
         });
