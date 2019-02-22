@@ -6,7 +6,7 @@ import { App } from "../Framework/App"
 import { AppUIConfig } from './AppUIConfig';
 import { RegisteredApplicationRepository } from './RegisteredAppRepo';
 import { UIStack } from './UIStack';
-
+import {Logging } from './Logging';
 
 type RequestQueue = QueryDefinition[];
 
@@ -58,7 +58,7 @@ class WindowBase {
 
     getApplicationList(prevQuery: JQuery.jqXHR, onComplete: JQuery.Ajax.SuccessCallback<any>) {
         prevQuery.then(() => { 
-            return this.ajaxQueryWithLogging(this.APP_LIST_URL, onComplete,null);
+            return Logging.ajaxQueryWithLogging(this.APP_LIST_URL, onComplete,null);
         });
     }
 
@@ -112,33 +112,6 @@ class WindowBase {
         importantAppList.forEach(this.addAppToUI.bind(this));
         this.refreshAppsInUI();
     }
-
-    ajaxQueryWithLogging(url: string, successCallback: JQuery.Ajax.SuccessCallback<any> | null, errorCallback: JQuery.Ajax.ErrorCallback<any> | null): JQueryStatic {
-
-        let internalSuccessCallback: JQuery.Ajax.SuccessCallback<any> | undefined = undefined;
-        if (successCallback != null) {
-            internalSuccessCallback = function (userCallback: JQuery.Ajax.SuccessCallback<any>, data: any, status: JQuery.Ajax.SuccessTextStatus, jqXHRObject: JQueryXHR) {
-                console.log("Call to " + url + " succcessful");
-                userCallback.call(self, data, status, jqXHRObject);
-            }.bind(self, successCallback);
-        }
-
-        let internalErrorCallback: JQuery.Ajax.ErrorCallback<any> | undefined = undefined;
-        if (errorCallback != null) {
-            internalErrorCallback = function (userCallback: JQuery.Ajax.ErrorCallback<any>, JQueryXHRObject: JQueryXHR, status: JQuery.Ajax.ErrorTextStatus, errString: string) {
-                console.error("Call to " + url + " failed");
-                errorCallback.call(self, JQueryXHRObject, status, errString);
-            }.bind(self, errorCallback);
-        }
-        $.ajax(url, {
-            success: internalSuccessCallback,
-            error: internalErrorCallback
-        })
-        return $;
-    }
-
-
-
     refreshAppsInUI(): void {
         const appList = this.uiStack.GetAppsToRender();
         for (var property in appList) {
@@ -153,7 +126,7 @@ class WindowBase {
                 this.startAppUI(application, appUIConfig, appStatus, null);
             } else {
                 const UIQuery = application.getUIQuery();
-                this.ajaxQueryWithLogging(UIQuery.URL, this.startAppUI.bind(this, application, appUIConfig, appStatus), null);
+                Logging.ajaxQueryWithLogging(UIQuery.URL, this.startAppUI.bind(this, application, appUIConfig, appStatus), null);
             }
         }
     }
@@ -169,11 +142,11 @@ class WindowBase {
     }
 
     loadApp(appName: string): void {
-        this.ajaxQueryWithLogging(
+        Logging.ajaxQueryWithLogging(
             this.APP_LOAD_URL + appName,
             (data: any) => { $("head").append(data); },
             null
-        )
+        );
     }
 
     createBaseAppContainer(): HTMLElement {
@@ -211,7 +184,7 @@ class WindowBase {
         const requestedQuery = params[0] as QueryDefinition;
         const url = this.SERVER_URL + requestedQuery.URL;
 
-        this.ajaxQueryWithLogging(url, 
+        Logging.ajaxQueryWithLogging(url, 
             this.applyQueryResponse.bind(this, requestedQuery, params[1]), null);
     }
 
