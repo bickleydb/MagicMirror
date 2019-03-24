@@ -21,7 +21,7 @@ class ApplicationDefinitionModel(models.Model):
     )
 
     width_value = models.IntegerField(_("Width"))
-    
+
     width_unit = models.CharField(
         _("Width Units"),
         max_length=Unit_Max_Length,
@@ -37,7 +37,7 @@ class ApplicationDefinitionModel(models.Model):
     )
 
     hasCSS = models.BooleanField()
- 
+
     @staticmethod
     def get_manager():
         return ApplicationDefinitionModel.objects

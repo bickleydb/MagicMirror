@@ -17,6 +17,7 @@ For($fileIndex = 0; $fileIndex -le $configFileList.Length; $fileIndex++) {
     If($currentFile.Name.Length -eq 0) {
         continue
     }
+
     webpack --config "$configFilePath\$currentFile"
 }
 

@@ -5,15 +5,17 @@ from . import Max_URL_Length
 
 
 class FontModel(models.Model):
-    name = models.CharField(_("Font Name"),
-                            max_length=Name_Max_Length,
-                            help_text=_("Friendly name to use to refer to this font")
-                            )
+    name = models.CharField(
+        _("Font Name"),
+        max_length=Name_Max_Length,
+        help_text=_("Friendly name to use to refer to this font")
+    )
 
-    url = models.CharField(_("Font URL"),
-                           max_length=Max_URL_Length,
-                           help_text=_("URL to use to load the font")
-                           )
+    url = models.CharField(
+        _("Font URL"),
+        max_length=Max_URL_Length,
+        help_text=_("URL to use to load the font")
+    )
 
     def __str__(self):
         return self.name

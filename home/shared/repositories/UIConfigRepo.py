@@ -1,6 +1,7 @@
-import home.models.ApplicationUIBridgeModel as ApplicationUIBridge
+import home.models.ApplicationUIBridgeModel as AUB
 
 
 class UIConfigRepo:
     def get_ui_for_app(self, app):
-        return ApplicationUIBridge.ApplicationUIBridgeModel.get_manager().filter(app__id=app.id)
+        manager = AUB.ApplicationUIBridgeModel.get_manager()
+        return manager.filter(app__id=app.id)

@@ -1,6 +1,8 @@
-import { TimeAppQuery, TimeAppQueryResult } from './TimeAppQuery';
-import {TimeAppUIQuery } from './TimeAppUIQuery';
+import { TimeAppQuery, TimeAppData } from './TimeAppQuery';
+import { TimeAppUIQuery } from './TimeAppUIQuery';
 import { App } from "../Framework/App" 
+
+
 
 export class TimeApp extends App {
 
@@ -22,15 +24,8 @@ export class TimeApp extends App {
         dayOfMonthSeperator : "#dayOfMonthSeperator",
         dateDisplay: "#dateDisplay",
     }
-
-    private HourFirstDigitValue : string = "";
-    private HourSecondDigitValue: string = "";
-    private MinuteFirstDigitValue : string = "";
-    private MinuteSecondDigitValue : string = "";
-    private MonthValue :string = "";
-    private DayOfWeekValue: string = "";
-    private DayOfMonthValue: string = "";
-    private YearValue: string = "";
+    private HasBeenUpdated : Boolean = false;
+    private BackingData : TimeAppData;
     
     private classes = {
         digit: "digit",
@@ -44,8 +39,25 @@ export class TimeApp extends App {
     constructor() {
         super();
         this.elementDict = {};
+        this.BackingData = this.createDefaultData();
        
     }
+
+    createDefaultData() : TimeAppData {
+        return {
+            HourFirstDigit : "",
+            HourSecondDigit: "",
+            MinuteFirstDigit : "",
+            MinuteSecondDigit : "",
+            Month : "",
+            DayOfWeek: "",
+            DayOfMonth: "",
+            Year: "",
+            HourSeperator:"",
+            DayOfWeekSeperator:""
+        }
+    }
+
     clientOnly() {
         return false;
     }
@@ -64,7 +76,7 @@ export class TimeApp extends App {
     onInitialRender(parentElement : HTMLElement) {
         this.ParentHTML = parentElement;
         this.updateUI();
-        this.updateLoopId = window.setInterval(this.updateUI.bind(this), 10000);
+        this.updateLoopId = window.setInterval(this.updateUI.bind(this), 1000);
     }
 
     updateUI() {
@@ -72,100 +84,72 @@ export class TimeApp extends App {
         $(document).trigger("RequestQuery", [update, this]);
     }
 
-    buildSingleDiv(elementID : string, ...classList : string[]) {
-        let newElement = document.createElement("div");
-        newElement.id = elementID;
-        classList.forEach(className => {
-            newElement.classList.add(className);
-        });
-
-        this.elementDict[elementID] = newElement;
-        return newElement;
-    }
-    buildTwoDigitElement(firstDigitID : string, secondDigitID : string, containerID : string) {
-        const parentElement = this.buildSingleDiv(containerID, this.classes.digit);
-        const firstDigit = this.buildSingleDiv(firstDigitID, this.classes.digit);
-        const secondDigit = this.buildSingleDiv(secondDigitID, this.classes.digit);
-        parentElement.appendChild(firstDigit);
-        parentElement.appendChild(secondDigit);
-        return parentElement;
-    }
-
     getParentElement() : HTMLElement { 
         if(this.ParentHTML === null) {
-            return document.createElement("div");
+            this.ParentHTML = document.createElement("div");
         }
         return this.ParentHTML;
     }
 
+    digitUIUpdate(parentElement:HTMLElement, newValue:string, selector:string) : void {
+        const digitElement : HTMLElement|null = parentElement.querySelector(selector);
+        if(digitElement) {
+            const newPercentage = (parseInt(newValue) * -10) + "%";
+            $(digitElement).animate({top:newPercentage});
+        }
+    }
+
+    updateUserInterface(queryResults:TimeAppData, parentElement:HTMLElement, forceUpdate:boolean=false) {
+        if (queryResults.HourFirstDigit  != this.BackingData.HourFirstDigit || forceUpdate) {
+            this.digitUIUpdate(parentElement, queryResults.HourFirstDigit,this.ElementIdSelectors.hourFistDigit);
+        }
+
+        if (queryResults.HourSecondDigit  != this.BackingData.HourSecondDigit || forceUpdate) {
+            this.digitUIUpdate(parentElement, queryResults.HourSecondDigit,this.ElementIdSelectors.hourSecondDigit);
+        }
+
+        if (queryResults.MinuteFirstDigit  != this.BackingData.MinuteFirstDigit || forceUpdate) {
+            this.digitUIUpdate(parentElement, queryResults.MinuteFirstDigit,this.ElementIdSelectors.minuteFirstDigit);
+        }
+
+        if (queryResults.MinuteSecondDigit  != this.BackingData.MinuteSecondDigit || forceUpdate) {
+            this.digitUIUpdate(parentElement,queryResults.MinuteSecondDigit,this.ElementIdSelectors.minuteSecondDigit);
+        }
+
+        if (queryResults.DayOfWeek  != this.BackingData.DayOfWeek || forceUpdate) {
+            const dayOfWeek = parentElement.querySelector(this.ElementIdSelectors.dayOfWeekElememt);
+            if(dayOfWeek) {
+                dayOfWeek.innerHTML = queryResults.DayOfWeek;
+            }
+        }
+
+        if (queryResults.Month  != this.BackingData.Month || forceUpdate) {
+            const monthValue = parentElement.querySelector(this.ElementIdSelectors.monthElement);
+            if(monthValue) {
+                monthValue.innerHTML = queryResults.Month;
+            }
+        }
+
+        if (queryResults.DayOfMonth  != this.BackingData.DayOfMonth|| forceUpdate) {
+            const dayOfMonthValue = parentElement.querySelector(this.ElementIdSelectors.dayOfMonthElement);
+            if(dayOfMonthValue) {
+                dayOfMonthValue.innerHTML = queryResults.DayOfMonth;
+            }
+        }
+
+        if (queryResults.Year  != this.BackingData.Year|| forceUpdate) {
+            const yearElement = parentElement.querySelector(this.ElementIdSelectors.yearElement);
+            if(yearElement) {
+                yearElement.innerHTML = queryResults.Year;
+            }
+        }
+    }
 
     queryComplete(queryDef : TimeAppQuery) {
         const queryResults = queryDef.GetResults();
-        const parentElement = this.getParentElement();
-
-        if (queryResults.HourFirstDigit  != this.HourFirstDigitValue) {
-            const hourFirstDigit = parentElement.querySelector(this.ElementIdSelectors.hourFistDigit);
-            if(hourFirstDigit) {
-                this.HourFirstDigitValue = queryResults.HourFirstDigit;
-                hourFirstDigit.innerHTML = this.HourFirstDigitValue;
-            }
-        }
-
-        if (queryResults.HourSecondDigit  != this.HourSecondDigitValue) {
-            const hourSecondDigit = parentElement.querySelector(this.ElementIdSelectors.hourSecondDigit);
-            if(hourSecondDigit) {
-                this.HourSecondDigitValue = queryResults.HourSecondDigit;
-                hourSecondDigit.innerHTML = this.HourSecondDigitValue;
-            }
-        }
-
-        if (queryResults.MinuteFirstDigit  != this.MinuteFirstDigitValue) {
-            const minuteFirstDigit = parentElement.querySelector(this.ElementIdSelectors.minuteFirstDigit);
-            if(minuteFirstDigit) {
-                this.MinuteFirstDigitValue = queryResults.MinuteFirstDigit;
-                minuteFirstDigit.innerHTML = this.MinuteFirstDigitValue;
-            }
-        }
-
-        if (queryResults.MinuteSecondDigit  != this.MinuteSecondDigitValue) {
-            const minuteSecondDigit = parentElement.querySelector(this.ElementIdSelectors.minuteSecondDigit);
-            if(minuteSecondDigit) {
-                this.MinuteSecondDigitValue = queryResults.MinuteSecondDigit;
-                minuteSecondDigit.innerHTML = this.MinuteSecondDigitValue;
-            }
-        }
-
-        if (queryResults.DayOfWeek  != this.DayOfWeekValue) {
-            const dayOfWeek = parentElement.querySelector(this.ElementIdSelectors.dayOfWeekElememt);
-            if(dayOfWeek) {
-                this.DayOfWeekValue = queryResults.DayOfWeek;
-                dayOfWeek.innerHTML = this.DayOfWeekValue;
-            }
-        }
-
-        if (queryResults.Month  != this.MonthValue) {
-            const monthValue = parentElement.querySelector(this.ElementIdSelectors.monthElement);
-            if(monthValue) {
-                this.MonthValue = queryResults.Month;
-                monthValue.innerHTML = this.MonthValue;
-            }
-        }
-
-        if (queryResults.DayOfMonth  != this.DayOfMonthValue) {
-            const dayOfMonthValue = parentElement.querySelector(this.ElementIdSelectors.dayOfMonthElement);
-            if(dayOfMonthValue) {
-                this.DayOfMonthValue = queryResults.DayOfMonth;
-                dayOfMonthValue.innerHTML = this.DayOfMonthValue;
-            }
-        }
-
-        if (queryResults.Year  != this.YearValue) {
-            const yearElement = parentElement.querySelector(this.ElementIdSelectors.yearElement);
-            if(yearElement) {
-                this.YearValue = queryResults.Year;
-                yearElement.innerHTML = this.YearValue;
-            }
-        }
+        this.updateUserInterface(queryResults,this.getParentElement(), !this.HasBeenUpdated)
+        this.BackingData = queryResults;
+        this.HasBeenUpdated = true;
     }
 }
 

@@ -1,7 +1,7 @@
 import { QueryDefinition } from './../Framework/QueryDefinition';
 import { App } from "../Framework/App" 
 
-export interface TimeAppQueryResult {
+export interface TimeAppData {
     HourFirstDigit: string,
     HourSecondDigit: string,
     HourSeperator: string,
@@ -23,7 +23,11 @@ export class TimeAppQuery extends QueryDefinition {
         super(TimeAppQuery.URL_STRING);
     }
 
-    GetResults() : TimeAppQueryResult {
+    SetResult(preDeterminedResult:TimeAppData) : void {
+        QueryDefinition.SetResponseVals(this,preDeterminedResult);
+    }
+
+    GetResults() : TimeAppData {
         const results = this.getResultVals();
         return {
             HourFirstDigit: results.GetValue("hourFirstDigit"),

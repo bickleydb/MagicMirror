@@ -1,6 +1,5 @@
 from django.urls import path
-from . import views
-
+from home.views import views
 urlpatterns = [
     path('startup/', views.loadHTML, name="loadHTML"),
     path('loadApplications', views.loadApplications, name="loadApplications"),
