@@ -1,12 +1,60 @@
 <div id="timeDisplay">
     <div id="hourContainer" class="digit">
-        <div id="hourFirstDigit" class="digit">{{hourFirstDigit}}</div>
-        <div id="hourSecondDigit" class="digit">{{hourSecondDigit}}</div>
+        <div id="hourFirstDigit" class="digitWheel digit" style="top:-{{hourFirstDigitPercent|striptags|safe}}%;">
+            <div>0</div>
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            <div>4</div>
+            <div>5</div>
+            <div>6</div>
+            <div>7</div>
+            <div>8</div>
+            <div>9</div>
+        </div>
+        <div id="hourSecondDigit" class="digitWheel digit" style="top:-{{hourSecondDigitPercent}}%">
+            <div>0</div>
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            <div>4</div>
+            <div>5</div>
+            <div>6</div>
+            <div>7</div>
+            <div>8</div>
+            <div>9</div>
+        </div>
     </div>
-    <div id="hourSeperator" class="digit">{{hourSeperator}}</div>
+    <div id="hourSeperator" class="digit blinkPerSecond digitWheel">{{hourSeperator}}</div>
     <div id="minuteContainer" class="digit">
-        <div id="minuteFirstDigit" class="digit">{{minuteFirstDigit}}</div>
-        <div id="minuteSecondDigit" class="digit">{{minuteSecondDigit}}</div>
+        <div class="digitWheel">
+            <div id="minuteFirstDigit" class="digit">
+                <div>0</div>
+                <div>1</div>
+                <div>2</div>
+                <div>3</div>
+                <div>4</div>
+                <div>5</div>
+                <div>6</div>
+                <div>7</div>
+                <div>8</div>
+                <div>9</div>
+            </div>
+        </div>
+        <div class="digitWheel">
+            <div id="minuteSecondDigit" class="digit">
+                <div>0</div>
+                <div>1</div>
+                <div>2</div>
+                <div>3</div>
+                <div>4</div>
+                <div>5</div>
+                <div>6</div>
+                <div>7</div>
+                <div>8</div>
+                <div>9</div>
+            </div>
+        </div>
     </div>
 </div>
 <div id="dateDisplay">

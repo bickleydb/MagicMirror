@@ -3,16 +3,20 @@ from django.utils.translation import gettext as _
 
 
 class ApplicationUIBridgeModel(models.Model):
+
+    app_help_text = _("Application to use with a particular UI configuration")
+    ui_config_help_text = _("UI configuration for the app")
+
     app = models.ForeignKey("ApplicationDefinitionModel",
                             on_delete=models.CASCADE,
                             verbose_name=_("Application"),
-                            help_text=_("Application to use with a particular UI configuration")
+                            help_text=app_help_text
                             )
 
     UI_Config = models.ForeignKey("ApplicationUIConfigModel",
                                   on_delete=models.CASCADE,
                                   verbose_name=_("Configuration"),
-                                  help_text=_("UI configuration that defines how the app should appear")
+                                  help_text=ui_config_help_text
                                   )
 
     def __str__(self):

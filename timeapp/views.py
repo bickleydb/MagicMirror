@@ -5,10 +5,9 @@ from datetime import datetime, timedelta
 import json
 
 global startTime
-startTime = datetime.now()
-
 
 def getTime(request):
+    startTime = datetime.now()
     startTime = startTime + timedelta(days=1)
     return JsonResponse(getCurrentTimeDictionary(startTime))
 
@@ -36,4 +35,4 @@ def getCurrentTimeDictionary(currentTime):
 
 def index(request):
     template = loader.get_template('timeapp/small.html')
-    return HttpResponse(template.render(getCurrentTimeDictionary(startTime), request))
+    return HttpResponse(template.render(getCurrentTimeDictionary(datetime.now()), request))

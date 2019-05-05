@@ -4,8 +4,11 @@ from . import Bundle_Path_Max_Length
 
 
 class CSSResourceModel(models.Model):
+
+    css_file_path = _("Relative to the /static/ endpoint")
+
     sourcePath = models.CharField(max_length=Bundle_Path_Max_Length,
-                                  help_text=_("Location of the CSS file relative to the /static/ endpoint")
+                                  help_text=css_file_path
                                   )
 
     def __str__(self):

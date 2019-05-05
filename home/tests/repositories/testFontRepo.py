@@ -10,7 +10,7 @@ from home.models.ApplicationDefinitionModel import ApplicationDefinitionModel
 class EmptyFontTest(unittest.TestCase):
     def test_emptyFontList(self):
         repo = FontRepo()
-        self.assertEqual(len(repo.loadFonts()), 0)
+        self.assertEqual(len(repo.load_fonts()), 0)
 
 
 class SingleFontTest(TestCase):
@@ -22,7 +22,7 @@ class SingleFontTest(TestCase):
 
     def testSingleFontTest(self):
         repo = FontRepo()
-        self.assertEqual(len(repo.loadFonts()), 1)
+        self.assertEqual(len(repo.load_fonts()), 1)
 
 
 class MultiFontTest(TestCase):
@@ -38,4 +38,4 @@ class MultiFontTest(TestCase):
 
     def testMultiFont(self):
         repo = FontRepo()
-        self.assertEqual(len(repo.loadFonts()), 2)
+        self.assertEqual(len(repo.load_fonts()), 2)

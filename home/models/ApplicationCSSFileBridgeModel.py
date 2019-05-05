@@ -4,16 +4,19 @@ from django.utils.translation import gettext as _
 
 class ApplicationCSSFileBridgeModel(models.Model):
 
+    app_help_text = _("Application you want to associate a CSS File with")
+    css_help_text = _("CSS file to be loaded")
+
     actualApp = models.ForeignKey("ApplicationDefinitionModel",
                                   on_delete=models.CASCADE,
                                   verbose_name=_("Application"),
-                                  help_text=_("Application you want to associate a CSS File with")
+                                  help_text=app_help_text
                                   )
 
     css_resource = models.ForeignKey("CSSResourceModel",
                                      on_delete=models.CASCADE,
                                      verbose_name=_("CSS File"),
-                                     help_text=_("CSS file to be loaded when the application is loaded")
+                                     help_text=css_help_text
                                      )
 
     def __str__(self):

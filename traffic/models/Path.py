@@ -29,8 +29,6 @@ class Path(models.Model):
                                        help_text=get_end_help_text()
                                        )
 
-   
-
     @staticmethod
     def get_manager():
         return Path.objects

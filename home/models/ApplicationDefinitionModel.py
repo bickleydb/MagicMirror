@@ -8,6 +8,8 @@ from . import Unit_Max_Length
 
 class ApplicationDefinitionModel(models.Model):
 
+    bundle_file = _("Javascript bundle file. Relative to /static/ endpoint")
+
     name = models.CharField(
             _("Application Name"),
             max_length=Name_Max_Length,
@@ -17,7 +19,7 @@ class ApplicationDefinitionModel(models.Model):
     bundlePath = models.CharField(
         _("Javascript Bundle Name"),
         max_length=Bundle_Path_Max_Length,
-        help_text=_("Location of the Javascript bundle that defines the app. Relative to the the /static/ endpoint")
+        help_text=bundle_file
     )
 
     width_value = models.IntegerField(_("Width"))

@@ -24,6 +24,6 @@ urlpatterns = [
     path('splash/', include('splashpage.urls')),
     path('traffic/', include('traffic.urls')),
     path('time/', include('timeapp.urls')),
+    path('accounts', include('django.contrib.auth.urls')),
     path('', include('home.urls'))
-
 ]

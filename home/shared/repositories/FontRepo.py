@@ -2,5 +2,5 @@ import home.models.FontModel as FontModel
 
 
 class FontRepo:
-    def loadFonts(self):
+    def load_fonts(self):
         return FontModel.FontModel.get_manager().all()

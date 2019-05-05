@@ -14,7 +14,7 @@ from home.shared.factories.MirrorConfigFactory  \
 
 class EmptyMirrorConfigTest(TestCase):
     def testEmptyMirrorConfig(self):
-        self.assertEqual(MCR().loadConfiguration(), None)
+        self.assertEqual(MCR().load_configuration(), None)
 
 
 class SingleMirrorConfigTest(TestCase):
@@ -30,4 +30,4 @@ class SingleMirrorConfigTest(TestCase):
         config.save()
 
     def testLoadConfig(self):
-        self.assertNotEqual(MCR().loadConfiguration(), None)
+        self.assertNotEqual(MCR().load_configuration(), None)
