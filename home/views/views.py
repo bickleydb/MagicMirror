@@ -56,7 +56,9 @@ def create_device(request):
     device.save()
     device.refresh_from_db()
     contentResponse = DeviceModel.to_dictionary(device)
-    return get_response_with_status_code(200, json.dumps(contentResponse))
+    response = get_response_with_status_code(200, json.dumps(contentResponse))
+    response["Set-Cookie"] = "magicMirrorId=" + str(device.deviceId)
+    return response
 
 
 def load_device_data(request):
@@ -70,7 +72,10 @@ def load_device_data(request):
     return get_response_with_status_code(200, responseContent)
 
 
+@csrf_exempt
 def login_by_device(request):
+    if request.method != "POST":
+        return get_response_with_status_code(400, None)
     if "deviceId" not in request.GET:
         return get_response_with_status_code(400, "Require Device Id")
     device = request.GET.get("deviceId")

@@ -6,9 +6,10 @@ import json
 
 global startTime
 
+
 def getTime(request):
     startTime = datetime.now()
-    startTime = startTime + timedelta(days=1)
+    startTime = startTime
     return JsonResponse(getCurrentTimeDictionary(startTime))
 
 

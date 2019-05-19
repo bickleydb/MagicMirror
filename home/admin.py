@@ -13,7 +13,6 @@ from .models import CSSResourceModel as CSS
 from .models import FontModel as Fonts
 from .models import MagicMirrorConfigModel as MagicMirrorConfig
 from .models import UserAppListBridgeModel as UserAppList
-from .models import User
 from .models import Device
 from .models import UserDeviceBridge
 # Register your models here.
@@ -26,6 +25,5 @@ admin.site.register(AppUIConfig.ApplicationUIConfigModel)
 admin.site.register(AppUIBridge.ApplicationUIBridgeModel)
 admin.site.register(UserAppList.UserAppListBridgeModel)
 admin.site.register(PhoneNumberModel)
-admin.site.register(User.MagicMirrorUser)
 admin.site.register(Device.DeviceModel)
 admin.site.register(UserDeviceBridge.UserDeviceBridge)

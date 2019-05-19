@@ -2,6 +2,7 @@ import datetime
 from weather.models.DailyWeatherModel import DailyWeatherModel
 from weather.models.WeatherForcastModel import WeatherForcastModel
 from weather.shared.owm_objects.OWMRequest import OWMRequest
+from weather.models.WeatherForcastModel import WeatherForcastModel
 from weather.models.WeatherConfigurationUserBridge import WeatherConfigurationUserBridge as WCUB
 
 
@@ -53,17 +54,18 @@ class WeatherRepo:
 
     def updateForcast(self):
         response_data = OWMRequest(should_get_forcast=True).get_data()
-        weather_manager = DailyWeatherModel.get_manager()
+        weather_manager = WeatherForcastModel.get_manager()
         dayList = response_data.getDayList()
+        timezone = datetime.timezone(datetime.timedelta(hours=-8))
         for dayValue in dayList:
             secondsSinceEpoch = dayValue.getSecondsSinceEpoch()
+            dateTimeValue = datetime.datetime.fromtimestamp(secondsSinceEpoch)
+            dateTimeValue = dateTimeValue.astimezone(timezone)
             weather_record, _ = weather_manager.update_or_create(
-                date=datetime.datetime.fromtimestamp(secondsSinceEpoch),
+                dateTime=dateTimeValue,
                 defaults={
-                    "description": dayValue.getDescription(),
                     "high_temp": dayValue.getHighTemp(),
                     "main_temp": dayValue.getMainTemp(),
-                    "humidity": dayValue.getHumidity(),
                     "low_temp": dayValue.getLowTemp(),
                     "wind_speed": dayValue.getWindSpeed()
                 }

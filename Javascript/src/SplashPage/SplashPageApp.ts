@@ -1,5 +1,4 @@
 import { SplashPageAppQuery } from './SplashPageAppQuery';
-
 import { QueryDefinition } from './../Framework/QueryDefinition';
 import { App } from "../Framework/App" 
 
@@ -23,7 +22,7 @@ export class SplashPage extends App {
      }
 
      onInitialRender(parent_element : HTMLElement) : void {
-        setTimeout( this.requestClose.bind(this),5000);
+        setTimeout( this.requestClose.bind(this),50000);
      }
 
      requestClose() {

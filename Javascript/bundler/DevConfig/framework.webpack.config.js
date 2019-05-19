@@ -3,7 +3,6 @@ module.exports = {
     output : {
         filename:'../../../home/static/home/dist/magicmirror.js',
     },
-
+    devtool: 'eval-source-map',
     mode : "development",
-
 };

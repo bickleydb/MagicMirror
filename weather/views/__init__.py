@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-
+import datetime
 
 from weather.shared.repositories.WeatherRepo import WeatherRepo
 
@@ -21,6 +21,50 @@ def update_forcast(request):
     weather_repo = WeatherRepo()
     weather_repo.updateForcast()
     return HttpResponse(True)
+
+
+def get_forcast(request):
+    current_date = datetime.today()
+
+
+
+def forcast_view(request):
+    update_forcast(request)
+    template = loader.get_template('weather/widget/weather_forcast.html')
+    return HttpResponse(template.render({
+        "date_list" : [
+            {
+                "name" : "Sun",
+                "weatherIcon" : "wi-owm-804",
+                "temp" : str(62),
+                "unitType" : "°F"
+            },
+            {
+                "name": "Mon",
+                "weatherIcon" : "wi-owm-804",
+                "temp" : str(62),
+                "unitType" : "°F"
+            },
+            {
+                "name" : "Tue",
+                "weatherIcon" : "wi-owm-804",
+                "temp" : str(62),
+                "unitType" : "°F"
+            },
+            {
+                "name" : "Wed",
+                "weatherIcon" : "wi-owm-804",
+                "temp" : str(62),
+                "unitType" : "°F"
+            },
+            {
+                "name" : "Thur",
+                "weatherIcon" : "wi-owm-804",
+                "temp" : str(62),
+                "unitType" : "°F"
+            }
+        ]
+    }))
 
 
 def index(request):

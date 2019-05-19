@@ -15,12 +15,13 @@ export class DeviceInfo {
             this.height_unit = "px";
             return;
         } 
-        let deviceDictionary : {width_value: number, height_value:number, width_unit:string, height_unit:string};
+        let deviceDictionary : {id:string | undefined, width_value: number, height_value:number, width_unit:string, height_unit:string};
         if(typeof deviceCanvas === "string") {
             deviceDictionary = JSON.parse(deviceCanvas);
         } else {
-            deviceDictionary = deviceCanvas as {width_value: number, height_value:number, width_unit:string, height_unit:string};
+            deviceDictionary = deviceCanvas as {width_value: number, height_value:number, width_unit:string, height_unit:string, id:string};
         }
+        this.id = deviceDictionary.id;
         this.width_unit = deviceDictionary["width_unit"];
         this.width_value = deviceDictionary["width_value"];
         this.height_value = deviceDictionary["height_value"];

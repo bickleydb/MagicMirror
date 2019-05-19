@@ -1,5 +1,7 @@
 <div class="transparent splashPageContainer">
-    {{ splash_svg | safe}}
+    <div style="position:absolute; height:100%; width:100%;">    
+        {{ splash_svg | safe}}
+    </div>
 
     {% if uses_animation %}
     <div id="animationDiv" class="scrollFromTop startScrollAnimation" style="{{color_string}}">

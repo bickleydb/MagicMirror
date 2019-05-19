@@ -6,13 +6,14 @@
 }
 
 #timeDisplay {
-    font-size:2em;
-    height:50%;
+    font-size:600%;
+    height:40%;
     overflow: hidden;
 }
 
 #dateDisplay {
-    font-size:0.8em;
+    font-size:300%;
+    height:50%;
 }
 
 #hourSeperator {
@@ -37,7 +38,7 @@
 .digitWheel {
     position: relative;
     float:left;
-    padding-right:0.2em;
+    padding-right:5px;;
 }
 
 #dayOfWeekSeperator {
@@ -52,6 +53,10 @@ hourSecondDigit */
 
 #minuteSecondDigit {
     position: relative;
+}
+
+.dateseperator {
+    padding-right:5%;
 }
 
 /*minuteFirstDigit 

@@ -36,6 +36,10 @@ body {
     overflow: hidden;
 }
 
+.magicMirrorContainer {
+    margin:5px;
+}
+
 .primaryFont {
     font-family: 'Quicksand', sans-serif;
 }

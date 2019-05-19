@@ -1,0 +1,14 @@
+<div
+    style="padding-right:15px; display: flex;flex-direction: row;">
+
+    {% for date in date_list %}
+        <div class = "forcastColumn" style="border: 1px solid white;flex-grow: 1;">
+            <div style="display:flex; flex-direction: column">
+                    <span class="alignCenter">{{date.name}}</span>
+                    <i class="alignCenter wi {{date.weatherIcon}}"></i>
+                    <span class="alignCenter">{{date.temp}}{{date.unitType}}</span>
+            </div>
+            
+        </div>
+    {% endfor %}
+</div>

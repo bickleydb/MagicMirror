@@ -9,7 +9,7 @@ import { UIStack } from './UIStack';
 import { Logging } from './Logging';
 import { DeviceInfo } from './Models/DeviceInfo';
 import { PersistentSettings, PersistentSettingsLoader } from './Models/PersistentSettings';
-
+import {WindowAPI} from './API/WindowAPI'
 type RequestQueue = QueryDefinition[];
 
 
@@ -56,9 +56,14 @@ class WindowBase {
 
     startLoadingSequence(): void {
         this.SettingsLoader.LoadSettings();
-        this.getDeviceInformation(
-            this.onDeviceInfoLoaded.bind(this, this.getMagicMirrorConfig));
-        this.getApplicationList(this.setupApplicationList.bind(this));
+        let query = this.LoadDeviceInformation().then(
+            () => {
+                WindowAPI.GetMagicMirrorConfig(this.applyMagicMirrorConfig.bind(this, () => {
+                    WindowAPI.GetApplicationList().then(this.setupApplicationList.bind(this))
+                }
+                ))
+            }
+        );
     }
 
     applyMagicMirrorConfig(onSuccess: Function, data: any): void {
@@ -75,9 +80,21 @@ class WindowBase {
         onSuccess.call(this);
     }
 
-    getMagicMirrorConfig(onSuccess: Function): JQuery.jqXHR {
+    LoadDeviceInformation() : JQuery.jqXHR {
+        const savedId = this.SavedSettings.magicMirrorId;
+        let query : JQuery.jqXHR | null = null;
+        if (!savedId) {
+            query = this.createDevice(document);
+        } else {
+            query = WindowAPI.GetDeviceInformation(savedId, undefined, undefined);
+        }
+        query.done(this.onDeviceInfoLoaded.bind(this));
+        return query;
+    }
+
+    getMagicMirrorConfig(data:any, textStatus:string, jqXHR: JQuery.jqXHR ): JQuery.jqXHR {
         const configQuery = $.ajax(this.CONFIG_URL);
-        configQuery.done(this.applyMagicMirrorConfig.bind(this, onSuccess));
+        configQuery.done(this.applyMagicMirrorConfig.bind(this));
         return configQuery;
     }
 
@@ -85,48 +102,18 @@ class WindowBase {
         return Logging.ajaxQueryWithLogging(this.APP_LIST_URL, onComplete, null);
     }
 
-    createDevice(onComplete: JQuery.Ajax.SuccessCallback<any> | null, doc: Document): JQuery.jqXHR | null {
+    createDevice(doc: Document): JQuery.jqXHR {
         this.Device = new DeviceInfo(doc);
-        return Logging.ajaxQueryWithLoggingSettings({
-            url: this.DEVICE_CREATE_URL,
-            method: "POST",
-            data: JSON.stringify(this.Device),
-            success: (data: any) => {
-                const parsedDevice = JSON.parse(data);
-                this.SavedSettings.magicMirrorDeviceId = parsedDevice.id;
-                this.SettingsLoader.SaveSettings(this.SavedSettings);
-                console.log("Device Id " + parsedDevice.id + " loaded");
-                if(onComplete != null) {
-                    this.onDeviceInfoLoaded(onComplete, data);
-                }
-            },
-            error: () => { }
-        })
+        return WindowAPI.CreateDevice(this.Device, undefined);
     }
 
-    onDeviceInfoLoaded(callback: Function, data: any): void {
+    onDeviceInfoLoaded(data: any): void {
+        const parsedDevice = JSON.parse(data);
+        console.log("Device Id " + parsedDevice.id + " loaded");
         this.Device = new DeviceInfo(data);
         if (this.Device == null) { return; }
         document.head.appendChild(this.Device.TranslateToHTML());
-        console.log(this.Device);
-        callback.call(this, data);
-    }
-
-    getDeviceInformation(onComplete: JQuery.Ajax.SuccessCallback<any> | null): JQuery.jqXHR | null {
-        const savedId = this.SavedSettings.magicMirrorDeviceId;
-        let onSuccess = onComplete;
-        if (onSuccess == null) {
-            onSuccess = () => { };
-        }
-        if (!savedId) {
-            return this.createDevice(onSuccess,document);
-        } else {
-            return Logging.ajaxQueryWithLoggingSettings({
-                url: this.DEVICE_URL + savedId,
-                success: onSuccess,
-                error: (data: any) => { console.error(data); }
-            });
-        }
+        WindowAPI.DeviceLogin(this.Device, undefined);
     }
 
     setupApplicationList(data: any): void {
@@ -221,6 +208,7 @@ class WindowBase {
         const appContainer = document.createElement("div");
         appContainer.classList.add("magicMirrorApp");
         appContainer.setAttribute("data-MagicMirrorAppID", app.getName());
+        appContainer.style.fontSize = "calc(100%)";
         this.baseHTMLElement.appendChild(appContainer);
         return appContainer;
     }

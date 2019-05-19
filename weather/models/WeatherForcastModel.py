@@ -4,12 +4,16 @@ from . import Free_Text_Max_Length
 
 class WeatherForcastModel(models.Model):
 
-    date = models.DateField(unique=True, null=True)
-    description = models.CharField(
-        max_length=Free_Text_Max_Length, blank=True, null=True)
+    dateTime = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=False,
+        unique=True,
+    )
+
+    locationName = models.CharField(max_length=100, null=True)
+
     high_temp = models.FloatField(blank=True, null=True)
     main_temp = models.FloatField(blank=True, null=True)
-    humidity = models.FloatField(blank=True, null=True)
     low_temp = models.FloatField(blank=True, null=True)
     snow_amt = models.FloatField(blank=True, null=True)
     rain_amt = models.FloatField(blank=True, null=True)

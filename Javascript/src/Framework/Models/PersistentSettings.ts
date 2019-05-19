@@ -1,5 +1,6 @@
 export interface PersistentSettings {
     magicMirrorDeviceId : string | undefined
+    csrftoken : string | undefined
     [key:string] : string | undefined
 }
 

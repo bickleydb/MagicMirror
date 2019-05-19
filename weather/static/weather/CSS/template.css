@@ -32,6 +32,7 @@
 .tempEntry {
     width:33%;
     display:flex;
+    font-size:300%;
     border-radius:6px;
 }
 
@@ -40,7 +41,7 @@
     height:200px;
     display:flex;
     padding-top:10px;
-    font-size:20px;
+    font-size:200%;
 }
 
 .smallIconContainer {
@@ -64,5 +65,27 @@
 
 .smallText {
     padding-bottom: 0.4em;
+}
+
+.alignCenter {
+    text-align: center;
+}
+
+.flexSizeHalf {
+    flex-grow: 2;
+}
+
+.flexSizeQuarter {
+    flex-grow: 1;
+}
+
+.forcastColumn {
+    font-family: 'Quicksand', sans-serif;
+    margin-right:5px;
+    font-size:200%;
+}
+
+.forcastColumn .wi {
+    font-size: 2em;
 }
 
