@@ -13,7 +13,7 @@ services :
     image: magicmirror:latest
     command: python3 manage.py runserver
     ports:
-      - "80:8000"
+      - "44:8000"
     depends_on:
       - database
     env_file:
