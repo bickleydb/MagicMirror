@@ -13,13 +13,13 @@ def get_weather(request):
 
 def update_today(request):
     weather_repo = WeatherRepo()
-    weather_repo.updateToday(request.user)
+    weather_repo.update_today(request.user)
     return HttpResponse(True)
 
 
 def update_forcast(request):
     weather_repo = WeatherRepo()
-    weather_repo.updateForcast()
+    weather_repo.get_forcast(request.user)
     return HttpResponse(True)
 
 
@@ -27,41 +27,40 @@ def get_forcast(request):
     current_date = datetime.today()
 
 
-
 def forcast_view(request):
     update_forcast(request)
     template = loader.get_template('weather/widget/weather_forcast.html')
     return HttpResponse(template.render({
-        "date_list" : [
+        "date_list": [
             {
-                "name" : "Sun",
-                "weatherIcon" : "wi-owm-804",
-                "temp" : str(62),
-                "unitType" : "°F"
+                "name": "Sun",
+                "weatherIcon": "wi-owm-804",
+                "temp": str(62),
+                "unitType": "°F"
             },
             {
                 "name": "Mon",
-                "weatherIcon" : "wi-owm-804",
-                "temp" : str(62),
-                "unitType" : "°F"
+                "weatherIcon": "wi-owm-804",
+                "temp": str(62),
+                "unitType": "°F"
             },
             {
-                "name" : "Tue",
-                "weatherIcon" : "wi-owm-804",
-                "temp" : str(62),
-                "unitType" : "°F"
+                "name": "Tue",
+                "weatherIcon": "wi-owm-804",
+                "temp": str(62),
+                "unitType": "°F"
             },
             {
-                "name" : "Wed",
-                "weatherIcon" : "wi-owm-804",
-                "temp" : str(62),
-                "unitType" : "°F"
+                "name": "Wed",
+                "weatherIcon": "wi-owm-804",
+                "temp": str(62),
+                "unitType": "°F"
             },
             {
-                "name" : "Thur",
-                "weatherIcon" : "wi-owm-804",
-                "temp" : str(62),
-                "unitType" : "°F"
+                "name": "Thur",
+                "weatherIcon": "wi-owm-804",
+                "temp": str(62),
+                "unitType": "°F"
             }
         ]
     }))
@@ -71,10 +70,14 @@ def index(request):
     weather_repo = WeatherRepo()
     template = loader.get_template('weather/widget/new_template.html')
     today_weather = weather_repo.get_today_weather(request.user)
+
+    farenMain = ConvertingFunctions.kelvinToFaren(today_weather.main_temp)
+    farenHigh = ConvertingFunctions.kelvinToFaren(today_weather.high_temp)
+    farenLow = ConvertingFunctions.kelvinToFaren(today_weather.low_temp)
     return HttpResponse(template.render({
-        "main_temp": ConvertingFunctions.kelvinToFaren(today_weather.main_temp),
-        "high_temp": ConvertingFunctions.kelvinToFaren(today_weather.high_temp),
-        "low_temp": ConvertingFunctions.kelvinToFaren(today_weather.low_temp),
+        "main_temp": farenMain,
+        "high_temp": farenHigh,
+        "low_temp": farenLow,
         "sunrise": today_weather.sunrise,
         "snow_amt": today_weather.snow_amt,
         "rain_amt": today_weather.rain_amt,

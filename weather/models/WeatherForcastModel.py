@@ -1,8 +1,13 @@
 from django.db import models
 from . import Free_Text_Max_Length
+import datetime
 
 
 class WeatherForcastModel(models.Model):
+
+    timeZone = datetime.timezone(datetime.timedelta(hours=-8))
+
+    ingestion_time = models.DateTimeField(auto_now=True, null=False)
 
     dateTime = models.DateTimeField(
         auto_now=False,
@@ -22,3 +27,9 @@ class WeatherForcastModel(models.Model):
     @staticmethod
     def get_manager():
         return WeatherForcastModel.objects
+
+    def __str__(self):
+        return str(self.locationName) + " : " +  self.dateTime.astimezone(self.timeZone).strftime("%Y-%m-%d %H:%M")
+    
+    class Meta:
+        ordering = ["dateTime"]

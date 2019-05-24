@@ -36,4 +36,5 @@ def getCurrentTimeDictionary(currentTime):
 
 def index(request):
     template = loader.get_template('timeapp/small.html')
-    return HttpResponse(template.render(getCurrentTimeDictionary(datetime.now()), request))
+    currentTiimeInformation = getCurrentTimeDictionary(datetime.now())
+    return HttpResponse(template.render(currentTiimeInformation, request))
