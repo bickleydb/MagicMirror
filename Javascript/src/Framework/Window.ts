@@ -208,7 +208,6 @@ class WindowBase {
         const appContainer = document.createElement("div");
         appContainer.classList.add("magicMirrorApp");
         appContainer.setAttribute("data-MagicMirrorAppID", app.getName());
-        appContainer.style.fontSize = "calc(100%)";
         this.baseHTMLElement.appendChild(appContainer);
         return appContainer;
     }

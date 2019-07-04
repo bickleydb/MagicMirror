@@ -1,4 +1,5 @@
 const path = require('path');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     entry : "./WeatherApp/WeatherApp.js",
@@ -6,7 +7,9 @@ module.exports = {
         filename:'../../../home/static/home/dist/WeatherApp.js',
     },
     mode : "development",
-    
+    optimization: {
+        minimizer: [new UglifyJsPlugin()],
+    },
     module:  {
         rules: [
             {

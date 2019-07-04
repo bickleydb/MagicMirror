@@ -6,13 +6,12 @@
 }
 
 #timeDisplay {
-    font-size:600%;
     height:40%;
+    font-size:3em;
     overflow: hidden;
 }
 
 #dateDisplay {
-    font-size:300%;
     height:50%;
 }
 

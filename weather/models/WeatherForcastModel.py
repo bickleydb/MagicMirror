@@ -16,7 +16,8 @@ class WeatherForcastModel(models.Model):
     )
 
     locationName = models.CharField(max_length=100, null=True)
-
+    icon_key = models.CharField(
+        max_length=Free_Text_Max_Length, blank=True, null=True)
     high_temp = models.FloatField(blank=True, null=True)
     main_temp = models.FloatField(blank=True, null=True)
     low_temp = models.FloatField(blank=True, null=True)

@@ -29,6 +29,8 @@ def get_forcast(request):
 
 def forcast_view(request):
     update_forcast(request)
+    weather_repo = WeatherRepo()
+    weather_repo.get_forcast(request.user)
     template = loader.get_template('weather/widget/weather_forcast.html')
     return HttpResponse(template.render({
         "date_list": [

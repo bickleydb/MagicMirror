@@ -1,12 +1,11 @@
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta, timezone
 from weather.models.DailyWeatherModel import DailyWeatherModel
 from weather.models.WeatherForcastModel import WeatherForcastModel
 from weather.shared.owm_objects.OWMRequest import OWMRequest
 from weather.models.WeatherForcastModel import WeatherForcastModel
 from weather.models.WeatherConfigurationUserBridge import  \
     WeatherConfigurationUserBridge as WCUB
-
+from django.db.models import Avg
 
 class WeatherRepo:
 
@@ -18,16 +17,26 @@ class WeatherRepo:
         return rtnList
 
     def get_today(self):
-        return datetime.date.today()
+        return datetime.today()
 
     def get_forcast(self, user):
         currentLocation = self.get_user_location(user)[0]
-        weather_manager = WeatherForcastModel.get_manager()
+  
 
         startDatetime = datetime.now()
         endDateTime = startDatetime + timedelta(days=4)
         dates = weather_manager.all().filter(dateTime__gt=startDatetime).filter(dateTime__lt=endDateTime)
         print(dates)
+
+    def get_aggregate_for_date(self, dateTime):
+        startDateTime = dateTime
+        weather_manager = WeatherForcastModel.get_manager()
+        endDateTime = timedelta(days=1)
+        dates = weather_manager.all().filter(dateTime__gt=startDateTime).filter(dateTime__lt=endDateTime)
+        temp = dates.aggregate(Avg('main_temp'))
+        weatherIcons = []
+        #for forcast in dates:
+          #  weatherIcons[forcast.]
 
     def get_today_weather(self, user):
         currentLocation = self.get_user_location(user)[0]
@@ -35,7 +44,7 @@ class WeatherRepo:
         today_weather = weather_manager.all().filter(date=self.get_today())
         weather_data = today_weather.filter(location=currentLocation)
         if len(weather_data) is 0:
-            self.updateToday(user)
+            self.update_today(user)
             weather_data = weather_manager.all().filter(date=self.get_today())
         return weather_data[0]
 
@@ -46,7 +55,7 @@ class WeatherRepo:
         sunrise = data.get_sunrise_time()
         sunset = data.get_sunset_time()
         weather_record, _ = weather_manager.update_or_create(
-                date=str(self.get_today()),
+                date=self.get_today(),
                 defaults={
                      "location": currentLocation,
                      "description": data.get_weather_desc(),
@@ -57,8 +66,8 @@ class WeatherRepo:
                      "icon_key": data.get_weather_icon(),
                      "humidity": data.get_humidity(),
                      "wind_speed": data.get_wind_speed(),
-                     "sunrise": datetime.datetime.fromtimestamp(sunrise),
-                     "sunset": datetime.datetime.fromtimestamp(sunset),
+                     "sunrise": datetime.fromtimestamp(sunrise),
+                     "sunset": datetime.fromtimestamp(sunset),
                 }
         )
         weather_record.save()
@@ -68,11 +77,11 @@ class WeatherRepo:
         currentLocation = self.get_user_location(user)[0]
         weather_manager = WeatherForcastModel.get_manager()
         dayList = response_data.getDayList()
-        timezone = datetime.timezone(datetime.timedelta(hours=-8))
+        currentTimezeone = timezone(timedelta(hours=-8))
         for dayValue in dayList:
             secondsSinceEpoch = dayValue.getSecondsSinceEpoch()
-            dateTimeValue = datetime.datetime.fromtimestamp(secondsSinceEpoch)
-            dateTimeValue = dateTimeValue.astimezone(timezone)
+            dateTimeValue = datetime.fromtimestamp(secondsSinceEpoch)
+            dateTimeValue = dateTimeValue.astimezone(currentTimezeone)
             weather_record, _ = weather_manager.update_or_create(
                 dateTime=dateTimeValue,
                 locationName=currentLocation.locationName,

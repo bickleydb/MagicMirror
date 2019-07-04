@@ -32,7 +32,7 @@
 .tempEntry {
     width:33%;
     display:flex;
-    font-size:300%;
+    font-size:2em;
     border-radius:6px;
 }
 
