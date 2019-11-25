@@ -1,89 +1,73 @@
-import { StatementUIQuery } from './StatementUIQuery';
-import { EventManager } from './../Common/EventManager';
-import { StatementAppQuery, StatementQueryResult } from './StatementQuery';
-import { KeyValuePair } from './../CommonTypes';
-import { QueryDefinition } from './../Framework/QueryDefinition';
-import { App } from "../Framework/App" 
-
-
+import { App } from "../Framework/App";
+import { QueryDefinition } from "./../Framework/QueryDefinition";
+import { StatementAppQuery, StatementQueryResult } from "./StatementQuery";
+import { StatementUIQuery } from "./StatementUIQuery";
 
 export class StatementApp extends App {
 
-    element_ids = {
+    private static ElementIds = {
+        message:     "message",
         sourceName : "source_title",
-        message:     "message"
-    }
+    };
 
-    private baseHTMLElement : null;
-
-    private elementDict : { [key : string] : HTMLElement }
-
-
-    private updateDBTimerId = -1;
-    private updateUITimerId = -1;
+    private elementDict: { [key: string]: HTMLElement };
 
     constructor() {
         super();
         this.elementDict = {};
     }
 
-
-    getName() : string {
+    public getName(): string {
         return "StatementApp";
     }
 
-    getUIQuery() : QueryDefinition {
+    public getUIQuery(): QueryDefinition {
         return new StatementUIQuery();
     }
 
-    onInit () : void {
+    // tslint:disable-next-line: no-empty
+    public onInit(): void { }
 
-    }
-
-    getReferenceToHTMLElement(parentElement : HTMLElement, elementId : string) {
-        const htmlElement = parentElement.querySelector("#"+elementId) as HTMLElement;
-        if(htmlElement) {
+    public getReferenceToHTMLElement(parentElement: HTMLElement, elementId: string) {
+        const htmlElement = parentElement.querySelector("#" + elementId) as HTMLElement;
+        if (htmlElement) {
             this.elementDict[elementId] = htmlElement;
         }
     }
 
-    startUILoop() : void {
+    public startUILoop(): void {
         this.updateUILoop();
-        this.updateUITimerId = window.setInterval(this.updateUILoop.bind(this), 100000);
+        this.CreateTimer("UpdateStatement", 1000, this.updateUILoop.bind(this));
     }
 
-    updateUILoop() : void {
+    public updateUILoop(): void {
         const newQuery = new StatementAppQuery();
         $(document).trigger("RequestQuery", [newQuery, this]);
     }
 
- 
-    onInitialRender(parentElement : HTMLElement) : void {
-        this.getReferenceToHTMLElement(parentElement, this.element_ids.sourceName);
-        this.getReferenceToHTMLElement(parentElement, this.element_ids.message);
+    public onInitialRender(parentElement: HTMLElement): void {
+        this.getReferenceToHTMLElement(parentElement, StatementApp.ElementIds.sourceName);
+        this.getReferenceToHTMLElement(parentElement, StatementApp.ElementIds.message);
         this.startUILoop();
     }
 
-    queryComplete(queryDef : QueryDefinition) : void {
-        if(queryDef instanceof StatementUIQuery) {
-            
-
-        } else if (queryDef instanceof StatementAppQuery) {
+    public queryComplete(queryDef: QueryDefinition): void {
+        if (queryDef instanceof StatementAppQuery) {
             this.updateUI(queryDef.GetResults());
         }
     }
 
-    updateUI( result: StatementQueryResult) : void {
-        this.elementDict[this.element_ids.sourceName].innerText = result.sourceName;
-        this.elementDict[this.element_ids.message].innerText = result.text;
+    public updateUI(result: StatementQueryResult): void {
+        this.elementDict[StatementApp.ElementIds.sourceName].innerText = result.sourceName;
+        this.elementDict[StatementApp.ElementIds.message].innerText = result.text;
     }
 
-    clientOnly() : boolean {
+    public clientOnly(): boolean {
         return false;
     }
 }
 
-let func = function (global : any) {
+const func = (global: any) => {
     global.MagicMirror.addApplication(new StatementApp());
-}
+};
 func(window);

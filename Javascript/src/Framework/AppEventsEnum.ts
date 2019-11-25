@@ -4,10 +4,10 @@ export enum ApplicationEventEnum {
     OnStartRender,
     OnHide,
     OnClose,
-    OnDestoy
+    OnDestoy,
 }
 
 export enum ApplicationRequestEnum {
     RequestStart,
-    RequestClose
+    RequestClose,
 }

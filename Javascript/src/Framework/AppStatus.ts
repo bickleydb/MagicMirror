@@ -2,11 +2,11 @@ import {App} from "./App";
 
 export class AppStatus {
 
-    private hasBeenLoaded : boolean;
-    private isWaitingQuery : boolean;
-    private isWaitingOnInit : boolean;
-    private isVisible : boolean;
-    private app : App;
+    private hasBeenLoaded: boolean;
+    private isWaitingQuery: boolean;
+    private isWaitingOnInit: boolean;
+    private isVisible: boolean;
+    private app: App;
 
     public constructor(app: App) {
         this.app = app;
@@ -16,44 +16,43 @@ export class AppStatus {
         this.isVisible = false;
     }
 
-    public get App() : App{
+    public get App(): App {
         return this.app;
     }
 
-    public get HasBeenLoaded() : boolean {
-        return this.hasBeenLoaded;
-    }
-
-    public get IsWaitingQuery() : boolean {
-        return this.isWaitingQuery;
-    }
-
-    public get IsWaitingOnInit() : boolean {
-        return this.isWaitingOnInit;
-    }
-
-    public get IsVisible() : boolean {
-        return this.isVisible;
-    }
-
-    public set IsWaitingOnInit(isWaiting : boolean) {
-        this.isWaitingOnInit = isWaiting;
-    }
-
-    public set IsVisible(value:boolean) {
-        this.isVisible = value;
-    }
-
-
-    public set App(app:App) {
+    public set App(app: App) {
         this.app = app;
+    }
+
+    public get HasBeenLoaded(): boolean {
+        return this.hasBeenLoaded;
     }
 
     public set HasBeenLoaded(hasBeenLoaded: boolean)  {
         this.hasBeenLoaded = hasBeenLoaded;
     }
 
-    public set IsWaitingQuery(isWaiting : boolean)  {
+    public get IsWaitingQuery(): boolean {
+        return this.isWaitingQuery;
+    }
+
+    public set IsWaitingQuery(isWaiting: boolean)  {
         this.IsWaitingQuery = isWaiting;
+    }
+
+    public get IsWaitingOnInit(): boolean {
+        return this.isWaitingOnInit;
+    }
+
+    public set IsWaitingOnInit(isWaiting: boolean) {
+        this.isWaitingOnInit = isWaiting;
+    }
+
+    public get IsVisible(): boolean {
+        return this.isVisible;
+    }
+
+    public set IsVisible(value: boolean) {
+        this.isVisible = value;
     }
 }

@@ -1,47 +1,41 @@
-import { QueryDefinition } from '../Framework/QueryDefinition';
-import { App } from "../Framework/App" 
-
+import { App } from "../Framework/App";
+import { QueryDefinition } from "../Framework/QueryDefinition";
 
 export class WeatherForcastApp extends App {
 
+    private elementDict: { [id: string ]: JQuery};
 
-    private elementDict : { [id :string ] : JQuery};
-    
     constructor() {
         super();
         this.elementDict = {};
     }
 
-    clientOnly() : boolean {
+    public clientOnly(): boolean {
         return false;
     }
 
-    getName() : string {
+    public getName(): string {
         return "WeatherForcastApp";
     }
 
-    onInit () : void {
+    // tslint:disable-next-line: no-empty
+    public onInit(): void { }
 
-    }
-
-    getUIQuery() : QueryDefinition {
+    public getUIQuery(): QueryDefinition {
         return new QueryDefinition("/weather/forcastView");
     }
 
-    onInitialRender(parent_element : HTMLElement) : void {
+    // tslint:disable-next-line: no-empty
+    public onInitialRender(parentElement: HTMLElement): void { }
 
-    }
+    // tslint:disable-next-line: no-empty
+    public queryComplete(queryDef: QueryDefinition): void { }
 
-    queryComplete(queryDef : QueryDefinition) : void {
-
-    }
-
-    cacheElements() : void {
-
-    }
+    // tslint:disable-next-line: no-empty
+    public cacheElements(): void { }
 }
 
-let func = function (global : any) {
+const func = (global: any) => {
     global.MagicMirror.addApplication(new WeatherForcastApp());
 };
 func(window);

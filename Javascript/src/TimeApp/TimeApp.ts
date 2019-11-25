@@ -1,159 +1,148 @@
-import { TimeAppQuery, TimeAppData } from './TimeAppQuery';
-import { TimeAppUIQuery } from './TimeAppUIQuery';
-import { App } from "../Framework/App" 
-
-
+import { App } from "../Framework/App";
+import { TimeAppData, TimeAppQuery } from "./TimeAppQuery";
+import { TimeAppUIQuery } from "./TimeAppUIQuery";
 
 export class TimeApp extends App {
 
-
     private ElementIdSelectors = {
+        dateDisplay: "#dateDisplay",
+        dayOfMonthElement: "#dayOfMonthElement",
+        dayOfMonthSeperator : "#dayOfMonthSeperator",
+        dayOfWeekElememt: "#dayOfWeekElement",
+        dayOfWeekSeperator: "#dayOfWeekSeperator",
+        hourContainer: "#hourContainer",
         hourFistDigit: "#hourFirstDigit",
         hourSecondDigit: "#hourSecondDigit",
-        hourContainer: "#hourContainer",
+        hourSeperator: "#hourSeperator",
+        minuteContainer: "#minuteContainer",
         minuteFirstDigit: "#minuteFirstDigit",
         minuteSecondDigit: "#minuteSecondDigit",
-        minuteContainer: "#minuteContainer",
-        hourSeperator: "#hourSeperator",
         monthElement: "#monthElement",
-        dayOfWeekElememt: "#dayOfWeekElement",
-        dayOfMonthElement: "#dayOfMonthElement",
-        yearElement: "#yearElement",
         timeDisplay: "#timeDisplay",
-        dayOfWeekSeperator: "#dayOfWeekSeperator",
-        dayOfMonthSeperator : "#dayOfMonthSeperator",
-        dateDisplay: "#dateDisplay",
-    }
-    private HasBeenUpdated : Boolean = false;
-    private BackingData : TimeAppData;
-    
-    private classes = {
-        digit: "digit",
+        yearElement: "#yearElement",
     };
 
-    private updateLoopId = -1;
-    private elementDict : { [id :string ] : HTMLElement};
-
-    private ParentHTML : HTMLElement | null = null;
+    private HasBeenUpdated: boolean = false;
+    private BackingData: TimeAppData;
+    private ParentHTML: HTMLElement | null = null;
 
     constructor() {
         super();
-        this.elementDict = {};
         this.BackingData = this.createDefaultData();
-       
+
     }
 
-    createDefaultData() : TimeAppData {
+    public createDefaultData(): TimeAppData {
         return {
+            DayOfMonth: "",
+            DayOfWeek: "",
+            DayOfWeekSeperator: "",
             HourFirstDigit : "",
             HourSecondDigit: "",
+            HourSeperator: "",
             MinuteFirstDigit : "",
             MinuteSecondDigit : "",
             Month : "",
-            DayOfWeek: "",
-            DayOfMonth: "",
             Year: "",
-            HourSeperator:"",
-            DayOfWeekSeperator:""
-        }
+        };
     }
 
-    clientOnly() {
+    public clientOnly() {
         return false;
     }
 
-    getUIQuery() {
+    public getUIQuery() {
         return new TimeAppUIQuery();
     }
 
-    onInit() {
-    }
+    // tslint:disable-next-line: no-empty
+    public onInit() { }
 
-    getName() {
+    public getName() {
         return "timeApp";
     }
 
-    onInitialRender(parentElement : HTMLElement) {
+    public onInitialRender(parentElement: HTMLElement) {
         this.ParentHTML = parentElement;
         this.updateUI();
-        this.updateLoopId = window.setInterval(this.updateUI.bind(this), 1000);
+        this.CreateTimer("TimeUpdate", 1000, this.updateUI.bind(this));
     }
 
-    updateUI() {
+    public updateUI() {
         const update = new TimeAppQuery();
         $(document).trigger("RequestQuery", [update, this]);
     }
 
-    getParentElement() : HTMLElement { 
-        if(this.ParentHTML === null) {
+    public getParentElement(): HTMLElement {
+        if (this.ParentHTML === null) {
             this.ParentHTML = document.createElement("div");
         }
         return this.ParentHTML;
     }
 
-    digitUIUpdate(parentElement:HTMLElement, newValue:string, selector:string) : void {
-        const digitElement : HTMLElement|null = parentElement.querySelector(selector);
-        if(digitElement) {
-            const newPercentage = (parseInt(newValue) * -10) + "%";
-            $(digitElement).animate({top:newPercentage});
+    public digitUIUpdate(parentElement: HTMLElement, newValue: string, selector: string): void {
+        const digitElement: HTMLElement|null = parentElement.querySelector(selector);
+        if (digitElement) {
+            const newPercentage = (parseInt(newValue, 10) * -10) + "%";
+            $(digitElement).animate({top: newPercentage});
         }
     }
 
-    updateUserInterface(queryResults:TimeAppData, parentElement:HTMLElement, forceUpdate:boolean=false) {
-        if (queryResults.HourFirstDigit  != this.BackingData.HourFirstDigit || forceUpdate) {
-            this.digitUIUpdate(parentElement, queryResults.HourFirstDigit,this.ElementIdSelectors.hourFistDigit);
+    public updateUserInterface(queryResults: TimeAppData, parentElement: HTMLElement, forceUpdate: boolean= false) {
+        if (queryResults.HourFirstDigit  !== this.BackingData.HourFirstDigit || forceUpdate) {
+            this.digitUIUpdate(parentElement, queryResults.HourFirstDigit, this.ElementIdSelectors.hourFistDigit);
         }
 
-        if (queryResults.HourSecondDigit  != this.BackingData.HourSecondDigit || forceUpdate) {
-            this.digitUIUpdate(parentElement, queryResults.HourSecondDigit,this.ElementIdSelectors.hourSecondDigit);
+        if (queryResults.HourSecondDigit  !== this.BackingData.HourSecondDigit || forceUpdate) {
+            this.digitUIUpdate(parentElement, queryResults.HourSecondDigit, this.ElementIdSelectors.hourSecondDigit);
         }
 
-        if (queryResults.MinuteFirstDigit  != this.BackingData.MinuteFirstDigit || forceUpdate) {
-            this.digitUIUpdate(parentElement, queryResults.MinuteFirstDigit,this.ElementIdSelectors.minuteFirstDigit);
+        if (queryResults.MinuteFirstDigit  !== this.BackingData.MinuteFirstDigit || forceUpdate) {
+            this.digitUIUpdate(parentElement, queryResults.MinuteFirstDigit, this.ElementIdSelectors.minuteFirstDigit);
         }
 
-        if (queryResults.MinuteSecondDigit  != this.BackingData.MinuteSecondDigit || forceUpdate) {
-            this.digitUIUpdate(parentElement,queryResults.MinuteSecondDigit,this.ElementIdSelectors.minuteSecondDigit);
+        if (queryResults.MinuteSecondDigit  !== this.BackingData.MinuteSecondDigit || forceUpdate) {
+            this.digitUIUpdate(parentElement,
+                 queryResults.MinuteSecondDigit,
+                 this.ElementIdSelectors.minuteSecondDigit);
         }
 
-        if (queryResults.DayOfWeek  != this.BackingData.DayOfWeek || forceUpdate) {
+        if (queryResults.DayOfWeek  !== this.BackingData.DayOfWeek || forceUpdate) {
             const dayOfWeek = parentElement.querySelector(this.ElementIdSelectors.dayOfWeekElememt);
-            if(dayOfWeek) {
+            if (dayOfWeek) {
                 dayOfWeek.innerHTML = queryResults.DayOfWeek;
             }
         }
 
-        if (queryResults.Month  != this.BackingData.Month || forceUpdate) {
+        if (queryResults.Month  !== this.BackingData.Month || forceUpdate) {
             const monthValue = parentElement.querySelector(this.ElementIdSelectors.monthElement);
-            if(monthValue) {
+            if (monthValue) {
                 monthValue.innerHTML = queryResults.Month;
             }
         }
 
-        if (queryResults.DayOfMonth  != this.BackingData.DayOfMonth|| forceUpdate) {
+        if (queryResults.DayOfMonth  !== this.BackingData.DayOfMonth || forceUpdate) {
             const dayOfMonthValue = parentElement.querySelector(this.ElementIdSelectors.dayOfMonthElement);
-            if(dayOfMonthValue) {
+            if (dayOfMonthValue) {
                 dayOfMonthValue.innerHTML = queryResults.DayOfMonth;
             }
         }
 
-        if (queryResults.Year  != this.BackingData.Year|| forceUpdate) {
+        if (queryResults.Year  !== this.BackingData.Year || forceUpdate) {
             const yearElement = parentElement.querySelector(this.ElementIdSelectors.yearElement);
-            if(yearElement) {
+            if (yearElement) {
                 yearElement.innerHTML = queryResults.Year;
             }
         }
     }
 
-    queryComplete(queryDef : TimeAppQuery) {
+    public queryComplete(queryDef: TimeAppQuery) {
         const queryResults = queryDef.GetResults();
-        this.updateUserInterface(queryResults,this.getParentElement(), !this.HasBeenUpdated)
+        this.updateUserInterface(queryResults, this.getParentElement(), !this.HasBeenUpdated);
         this.BackingData = queryResults;
         this.HasBeenUpdated = true;
     }
 }
 
-let func = function (global : any) {
-    global.MagicMirror.addApplication(new TimeApp());
-};
+const func = (global: any) => { global.MagicMirror.addApplication(new TimeApp()); };
 func(window);

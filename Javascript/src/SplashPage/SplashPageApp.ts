@@ -1,41 +1,38 @@
-import { SplashPageAppQuery } from './SplashPageAppQuery';
-import { QueryDefinition } from './../Framework/QueryDefinition';
-import { App } from "../Framework/App" 
-
+import { App } from "../Framework/App";
+import { QueryDefinition } from "./../Framework/QueryDefinition";
+import { SplashPageAppQuery } from "./SplashPageAppQuery";
 
 export class SplashPage extends App {
 
-     clientOnly() : boolean {
+     public clientOnly(): boolean {
          return false;
      }
 
-     getName() : string {
+     public getName(): string {
          return "SplashPage";
      }
 
-     onInit () : void {
+     // tslint:disable-next-line: no-empty
+     public onInit(): void { }
 
-     }
-
-     getUIQuery() : QueryDefinition {
+     public getUIQuery(): QueryDefinition {
         return new SplashPageAppQuery();
      }
 
-     onInitialRender(parent_element : HTMLElement) : void {
-        setTimeout( this.requestClose.bind(this),50000);
+     public onInitialRender(parentElement: HTMLElement): void {
+        this.CreateTimer("CloseSplashScreen", 50000, this.requestClose.bind(this));
      }
 
-     requestClose() {
-        $(document).trigger("RequestClose", [this, this])
+     public requestClose() {
+        $(document).trigger("RequestClose", [this, this]);
      }
 
-     queryComplete(queryDef : QueryDefinition) : void {
-
-     }
+     // tslint:disable-next-line: no-empty
+     public queryComplete(queryDef: QueryDefinition): void { }
 
 }
 
-let func = function (global : any) {
+const func = (global: any) => {
     global.MagicMirror.addApplication(new SplashPage());
-}
+};
 func(window);

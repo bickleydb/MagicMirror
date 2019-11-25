@@ -28,7 +28,14 @@ class OWMForcastSingleDay:
             desc=jsonData["weather"][0]["description"]
         )
 
-    def getSecondsSinceEpoch(self):
+    def pick_icon(self, iconKey):
+        if iconKey in OWMIconMapping.OWMIconMapping:
+            return OWMIconMapping.OWMIconMapping[iconKey]
+        else:
+            print("Weather Icon Not found for" + str(iconKey))
+            return ""
+
+    def get_seconds_since_epoch(self):
         return self.dateStr
 
     def getDescription(self):

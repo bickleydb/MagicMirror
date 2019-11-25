@@ -1,52 +1,58 @@
+// tslint:disable-next-line: interface-name
+export interface MirrorConfigValues {
+    rows: number;
+    columns: number;
+    widthValue: number;
+    widthUnit: string;
+    heightValue: number;
+    heightUnit: string;
+}
+
 export class MagicMirrorConfig {
 
-    private numRows : number;
-    private numColumns : number;
+    private numRows: number;
+    private numColumns: number;
 
-    constructor(queryResponse : {rows : number, columns : number, widthValue : number, widthUnit:string, heightValue:number, heightUnit:string}) { 
+    constructor(queryResponse: MirrorConfigValues) {
         this.numColumns = queryResponse.columns;
         this.numRows = queryResponse.rows;
     }
 
-    public get NumRows() : number {
+    public get NumRows(): number {
         return this.numRows;
     }
 
-    public get NumColumns() : number {
-        return this.numColumns;
-    }
-
-    public set NumRows(value:number)  {
+    public set NumRows(value: number)  {
         this.numRows = value;
     }
 
-    public set NumColumns(value:number)  {
+    public get NumColumns(): number {
+        return this.numColumns;
+    }
+
+    public set NumColumns(value: number)  {
         this.numColumns = value;
     }
 
-    public TranslateToHTML() : HTMLElement {
+    public TranslateToHTML(): HTMLElement {
         const inlineElement = document.createElement("style");
         inlineElement.innerText = ".mirrorContainer { " +
                                     this.GetTemplateRowsCSSString() +
-                                    this.GetTemplateColsCSSString() + 
-                                    "} </style>"
+                                    this.GetTemplateColsCSSString() +
+                                    "} </style>";
         return inlineElement;
     }
 
-    private GetTemplateColsCSSString() : string {
-        return "grid-template-columns:" + this.GetTemplateValueString(this.NumColumns) + ";"
+    private GetTemplateColsCSSString(): string {
+        return "grid-template-columns:" + this.GetTemplateValueString(this.NumColumns) + ";";
     }
 
-    private GetTemplateRowsCSSString() : string {
+    private GetTemplateRowsCSSString(): string {
         return "grid-template-rows:" + this.GetTemplateValueString(this.NumRows) + ";";
     }
 
-    private GetTemplateValueString(value:number) : string {
-        return ((100/value)+"% ").repeat(value); 
+    private GetTemplateValueString(value: number): string {
+        return ((100 / value) + "% ").repeat(value);
     }
-
-
-  
-
 
 }

@@ -29,8 +29,8 @@ class subreddit_thread():
 
         self.metadata = thread_metadata(
             post_id=backingJSON['id'],
-            post_name=backingJSON['name'], 
-            author=backingJSON['author'], 
+            post_name=backingJSON['name'],
+            author=backingJSON['author'],
             created_time=backingJSON['created'],
             is_censored=backingJSON['over_18'],
             is_spoiler=backingJSON['spoiler'],

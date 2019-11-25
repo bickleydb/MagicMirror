@@ -1,25 +1,24 @@
-import { TimeAppQuery } from './TimeAppQuery';
 import { QueryDefinition } from "../Framework/QueryDefinition";
 
+// tslint:disable-next-line: interface-name
 export interface TimeAppUIQueryResult {
-    htmlResponse : string
+    htmlResponse: string;
 }
 
-
 export class TimeAppUIQuery extends QueryDefinition {
-    
+
     constructor() {
         super("/time/index");
     }
 
-    public get URL() : string {
+    public get URL(): string {
         return super.URL;
     }
 
-    public GetResults() : TimeAppUIQueryResult {
+    public GetResults(): TimeAppUIQueryResult {
         const responseVals = this.getResultVals();
         return {
-            htmlResponse : responseVals.GetValue("htmlResponse")
-        }
+            htmlResponse : responseVals.GetValue("htmlResponse"),
+        };
     }
 }

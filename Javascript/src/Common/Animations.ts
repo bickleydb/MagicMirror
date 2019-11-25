@@ -1,39 +1,19 @@
-import * as $ from 'jquery'
 
-export interface InterpolatorFunction {
-    (previousState : number) : number
-}
+export type InterpolatorFunction = (previousState: number)  => number;
 
+// tslint:disable-next-line: interface-name
 export interface Interpolator {
-    GetValue : InterpolatorFunction
+    GetValue: InterpolatorFunction;
 }
 
 export class LinearInterpolator  {
 
 }
 
-export interface Animation {
-    
-}
-
+// tslint:disable-next-line: interface-name
 export interface AnimationConfig {
-    duration : number,
-    easing : string,
-    complete : Function,
-}
-
-export class LinearAnimation implements Animation{
-
-    private animatedElement : HTMLElement;
-
-    constructor(animatingElement : HTMLElement) {
-        this.animatedElement = animatingElement;
-    }
-
-    Start() : void {
-        $(this.animatedElement).animate({
-
-        });
-    }
-
+    duration: number;
+    easing: string;
+    // tslint:disable-next-line: ban-types
+    complete: Function;
 }
