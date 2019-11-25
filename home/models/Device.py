@@ -41,14 +41,14 @@ class DeviceModel(models.Model):
         responseVal = DeviceModel()
         if "name" in dictionary:
             responseVal.name = dictionary["name"],
-        if "width_unit" in dictionary:
-            responseVal.width_unit = dictionary["width_unit"]
-        if "width_value" in dictionary:
-            responseVal.width_value = dictionary["width_value"]
-        if "height_value" in dictionary:
-            responseVal.height_value = dictionary["height_value"]
-        if "height_unit" in dictionary:
-            responseVal.height_unit = dictionary["height_unit"]
+        if "widthUnit" in dictionary:
+            responseVal.width_unit = dictionary["widthUnit"]
+        if "widthValue" in dictionary:
+            responseVal.width_value = dictionary["widthValue"]
+        if "heightValue" in dictionary:
+            responseVal.height_value = dictionary["heightValue"]
+        if "heightUnit" in dictionary:
+            responseVal.height_unit = dictionary["heightUnit"]
         return responseVal
 
     @staticmethod

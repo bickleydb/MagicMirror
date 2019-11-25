@@ -1,60 +1,65 @@
 
-export class DeviceInfo {
-    public id : string | undefined;
-    public name : string | undefined;
-    public width_value:number;
-    public width_unit:string;
-    public height_value:number;
-    public height_unit:string;
+// tslint:disable-next-line: interface-name
+export interface DeviceInfoData {
+    id: string | undefined;
+    width_value: number;
+    height_value: number;
+    width_unit: string;
+    height_unit: string;
+}
 
-    constructor(deviceCanvas:Document | string | object) {
-        if(deviceCanvas instanceof Document) {
-            this.width_value = deviceCanvas.documentElement.clientWidth;
-            this.height_value = deviceCanvas.documentElement.clientHeight;
-            this.width_unit = "px";
-            this.height_unit = "px";
+export class DeviceInfo {
+
+    public id: string | undefined;
+    public name: string | undefined;
+    public widthValue: number;
+    public widthUnit: string;
+    public heightValue: number;
+    public heightUnit: string;
+
+    constructor(deviceCanvas: Document | string | object) {
+        if (deviceCanvas instanceof Document) {
+            this.widthValue = deviceCanvas.documentElement.clientWidth;
+            this.heightValue = deviceCanvas.documentElement.clientHeight;
+            this.widthUnit = "px";
+            this.heightUnit = "px";
             return;
-        } 
-        let deviceDictionary : {id:string | undefined, width_value: number, height_value:number, width_unit:string, height_unit:string};
-        if(typeof deviceCanvas === "string") {
+        }
+        let deviceDictionary: DeviceInfoData;
+        if (typeof deviceCanvas === "string") {
             deviceDictionary = JSON.parse(deviceCanvas);
         } else {
-            deviceDictionary = deviceCanvas as {width_value: number, height_value:number, width_unit:string, height_unit:string, id:string};
+            deviceDictionary = deviceCanvas as DeviceInfoData;
         }
         this.id = deviceDictionary.id;
-        this.width_unit = deviceDictionary["width_unit"];
-        this.width_value = deviceDictionary["width_value"];
-        this.height_value = deviceDictionary["height_value"];
-        this.height_unit = deviceDictionary["height_unit"];
+        this.widthUnit = deviceDictionary.width_unit;
+        this.widthValue = deviceDictionary.width_value;
+        this.heightValue = deviceDictionary.height_value;
+        this.heightUnit = deviceDictionary.height_unit;
     }
 
-    public static CreateDeviceInfoFromJSON(data:{width_value: number, height_value:number, width_unit:string, height_unit:string}) {
-
-    }
-
-    private GetWidthCSSString () : string {
-        return "width:" + this.GetWidthText() + ";";
-      }
-  
-      private GetHeightCssString() : string{
-          return "height:" + this.GetHeightText() + ";";
-      }
-  
-      private GetWidthText() : string {
-          return this.width_value + this.width_unit;
-      }
-  
-      private GetHeightText() : string {
-          return this.height_value + this.height_unit;
-      }
-
-    public TranslateToHTML() : HTMLElement {
+    public TranslateToHTML(): HTMLElement {
         const inlineElement = document.createElement("style");
-        inlineElement.innerText = ".mirrorContainer { " + 
-                                        this.GetWidthCSSString() + 
-                                        this.GetHeightCssString() +"} </style>"
+        inlineElement.innerText = ".mirrorContainer { " +
+                                        this.GetWidthCSSString() +
+                                        this.GetHeightCssString() + "} </style>";
         return inlineElement;
     }
 
+    private GetWidthCSSString(): string {
+        return "width:" + this.GetWidthText() + ";";
+      }
+
+      private GetHeightCssString(): string {
+          return "height:" + this.GetHeightText() + ";";
+      }
+
+      private GetWidthText(): string {
+          return this.widthValue + this.widthUnit;
+      }
+
+      private GetHeightText(): string {
+          return this.heightValue + this.heightUnit;
+      }
 
 }

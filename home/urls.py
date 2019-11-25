@@ -1,5 +1,6 @@
 from django.urls import path
-from home.views import views
+from home.views import HomeViews, DeviceViews
+
 urlpatterns = [
     path('startup/', views.load_html, name="load_html"),
     path('loadApplications', views.load_applications, name="load_applications"),

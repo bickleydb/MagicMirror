@@ -1,67 +1,67 @@
-import { QueryDefinition } from './../Framework/QueryDefinition';
-import { App } from "../Framework/App" 
-
+import { App } from "../Framework/App";
+import { QueryDefinition } from "./../Framework/QueryDefinition";
 
 export class WeatherApp extends App {
-    private elementIds : { [vals : string] : string } = {
+    private elementIds: { [vals: string]: string } = {
+        additionalValues : "additionalValues",
         currentTemp : "currentTemp",
         highTemp : "highTemp",
-        lowTemp : "lowTemp",
-        windSpeed : "windSpeed",
-        labelCurrent : "labelCurrent",
-        additionalValues : "additionalValues",
-        sunStatusRow : "sunStatusRow",
-        sunsetLabel : "sunsetLabel",
-        sunsetTime : "sunsetTime", 
-        sunriseLabel : "sunriseLabel",
-        sunriseTime : "sunriseTime",
-        percipitationRow : "percipitationRow",
         humidityLabel : "humidityLabel",
         humidityValue : "humidityValue",
-        snowLabel : "snowLabel",
+        labelCurrent : "labelCurrent",
+        lowTemp : "lowTemp",
+        percipitationRow : "percipitationRow",
         snowAmount : "snowAmount",
-    }
+        snowLabel : "snowLabel",
+        sunriseLabel : "sunriseLabel",
+        sunriseTime : "sunriseTime",
+        sunsetLabel : "sunsetLabel",
+        sunsetTime : "sunsetTime",
+        sunstatusRow : "sunStatusRow",
+    };
 
-    private elementDict : { [id :string ] : JQuery};
-    
+    private elementDict: { [id: string ]: JQuery};
+
     constructor() {
         super();
         this.elementDict = {};
     }
 
-    clientOnly() : boolean {
+    public clientOnly(): boolean {
         return false;
     }
 
-    getName() : string {
+    public getName(): string {
         return "WeatherApp";
     }
 
-    onInit () : void {
+    // tslint:disable-next-line: no-empty
+    public onInit(): void {}
 
-    }
-
-    getUIQuery() : QueryDefinition {
+    public getUIQuery(): QueryDefinition {
         return new QueryDefinition("/weather/");
     }
 
-    onInitialRender(parent_element : HTMLElement) : void {
+    public onInitialRender(parentElement: HTMLElement): void {
         this.cacheElements();
+        this.CreateTimer("UpdateWeather", 10000, () => {this.onUIUpdate(); });
     }
 
-    queryComplete(queryDef : QueryDefinition) : void {
+    // tslint:disable-next-line: no-empty
+    public onUIUpdate(): void { }
 
-    }
+    // tslint:disable-next-line: no-empty
+    public queryComplete(queryDef: QueryDefinition): void { }
 
-    cacheElements() : void {
-        for(let prop in this.elementIds) {
-            if(!this.elementIds.hasOwnProperty(prop)) {continue;}
-            this.elementDict[(this.elementIds[prop]+"")] = $("#"+prop);
+    public cacheElements(): void {
+        for (const prop in this.elementIds) {
+            if (!this.elementIds.hasOwnProperty(prop)) {continue; }
+            this.elementDict[(this.elementIds[prop] + "")] = $("#" + prop);
         }
     }
 }
 
-let func = function (global : any) {
+const func = (global: any) => {
     global.MagicMirror.addApplication(new WeatherApp());
 };
 func(window);

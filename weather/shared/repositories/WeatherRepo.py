@@ -9,15 +9,36 @@ from django.db.models import Avg
 
 class WeatherRepo:
 
+    def __init__(self):
+        self.weatherManager = WeatherForcastModel.get_manager()
+        self.weatherConfigManager = WCUB.get_manager()
+
+
+
     def get_user_location(self, user):
-        locationList = WCUB.get_manager()
         rtnList = []
-        for bridge in locationList.filter(user=user):
+        for bridge in self.weatherConfigManager.filter(user=user):
             rtnList.append(bridge.weatherConfiguration)
         return rtnList
 
     def get_today(self):
         return datetime.today()
+
+    def organizeByDay(self, querySet):
+        dateDictionary = {}
+        for query in querySet:
+            dateKey = datetime.strftime(query.dateTime, "%m-%d")
+            if dateKey in dateDictionary:
+                dateDictionary[dateKey].append(query)
+            else:
+                dateDictionary[dateKey] = []
+                dateDictionary[dateKey].append(query)
+        return dateDictionary
+
+    def load_forcast(self, startDateTime, endDateTime):
+        return self.weatherManager.all() \
+            .filter(dateTime__gt=startDateTime) \
+            .filter(dateTime__lt=endDateTime)
 
     def get_forcast(self, user):
         currentLocation = self.get_user_location(user)[0]
@@ -25,8 +46,50 @@ class WeatherRepo:
 
         startDatetime = datetime.now()
         endDateTime = startDatetime + timedelta(days=4)
-        dates = weather_manager.all().filter(dateTime__gt=startDatetime).filter(dateTime__lt=endDateTime)
-        print(dates)
+
+        dateList = self.load_forcast(startDatetime, endDateTime)
+        if len(dateList) == 0:
+            self.update_forcast(user)
+            dateList = self.load_forcast(startDatetime, endDateTime)
+        dayList = self.organizeByDay(dateList)
+        return self.get_weather_values_by_day(dayList)
+
+    def get_forcast_main_temp(self,forcast):
+        return forcast.main_temp
+
+    def get_forcast_low_temp(self,forcast):
+        return forcast.low_temp
+
+    def get_forcast_high_temp(self,forcast):
+        return forcast.low_temp
+
+    def get_forcast_icon(self, forcast):
+        return forcast.icon_key
+
+    def get_forcast_time(self, forcast):
+        return forcast.dateTime
+
+    def get_weather_values_by_day(self, dateDictionary):
+        weatherValuesByDay = {}
+        for date in dateDictionary:
+            if not date in weatherValuesByDay:
+                weatherValuesByDay[date] = {}
+            weatherDataList = dateDictionary[date]
+            mainTemp = sum([self.get_forcast_main_temp(query) for query in weatherDataList]) / len(weatherDataList)
+            lowTemp = min([self.get_forcast_low_temp(query) for query in weatherDataList])
+            highTemp = max([self.get_forcast_high_temp(query) for query in weatherDataList])
+            iconList = [self.get_forcast_icon(query) for query in weatherDataList]
+            forcastTimeStamp = min([self.get_forcast_time(query) for query in weatherDataList])
+            most_common_icon = max(set(iconList), key=iconList.count)
+            weatherValuesByDay[date] = {
+                "date" : datetime.strftime(forcastTimeStamp, "%a"),
+                "main_temp": mainTemp,
+                "low_temp" : lowTemp,
+                "high_temp" : highTemp,
+                "icon" : most_common_icon,
+            }
+        return weatherValuesByDay
+            
 
     def get_aggregate_for_date(self, dateTime):
         startDateTime = dateTime

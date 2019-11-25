@@ -1,34 +1,31 @@
-import {App} from '../Framework/App'
-import { QueryDefinition } from '../Framework/QueryDefinition';
-import { ApplicationEventEnum, ApplicationRequestEnum } from '../Framework/AppEventsEnum';
+import {App} from "../Framework/App";
+import { ApplicationEventEnum, ApplicationRequestEnum } from "../Framework/AppEventsEnum";
+import { QueryDefinition } from "../Framework/QueryDefinition";
 
 export class MultiApp extends App {
 
-    private ChildApps : App[] | null = null;
+    private ChildApps: App[] | null = null;
 
-
-     clientOnly() : boolean {
+     public clientOnly(): boolean {
          return false;
      }
 
-     getName() : string {
+     public getName(): string {
          return "MultiApp";
      }
 
-     onInit () : void {
+     public onInit(): void {
         return;
      }
 
-     getUIQuery() : QueryDefinition {
+     public getUIQuery(): QueryDefinition {
         return new QueryDefinition("");
      }
 
-     onInitialRender(parent_element : HTMLElement) : void {
+     // tslint:disable-next-line: no-empty
+     public onInitialRender(parentElement: HTMLElement): void { }
 
-     }
-     
-     queryComplete(queryDef : QueryDefinition) : void {
-
-     }
+     // tslint:disable-next-line: no-empty
+     public queryComplete(queryDef: QueryDefinition): void { }
 
 }

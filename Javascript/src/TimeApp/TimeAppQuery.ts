@@ -1,45 +1,45 @@
-import { QueryDefinition } from './../Framework/QueryDefinition';
-import { App } from "../Framework/App" 
+import { App } from "../Framework/App" ;
+import { QueryDefinition } from "./../Framework/QueryDefinition";
 
+// tslint:disable-next-line: interface-name
 export interface TimeAppData {
-    HourFirstDigit: string,
-    HourSecondDigit: string,
-    HourSeperator: string,
-    MinuteFirstDigit: string,
-    MinuteSecondDigit: string,
-    DayOfWeek: string,
-    DayOfWeekSeperator: string,
-    Month: string,
-    DayOfMonth: string,
-    Year: string
+    HourFirstDigit: string;
+    HourSecondDigit: string;
+    HourSeperator: string;
+    MinuteFirstDigit: string;
+    MinuteSecondDigit: string;
+    DayOfWeek: string;
+    DayOfWeekSeperator: string;
+    Month: string;
+    DayOfMonth: string;
+    Year: string;
 }
 
 export class TimeAppQuery extends QueryDefinition {
 
     private static URL_STRING = "/time/getTime";
 
-
     constructor() {
         super(TimeAppQuery.URL_STRING);
     }
 
-    SetResult(preDeterminedResult:TimeAppData) : void {
-        QueryDefinition.SetResponseVals(this,preDeterminedResult);
+    public SetResult(preDeterminedResult: TimeAppData): void {
+        QueryDefinition.SetResponseVals(this, preDeterminedResult);
     }
 
-    GetResults() : TimeAppData {
+    public GetResults(): TimeAppData {
         const results = this.getResultVals();
         return {
+            DayOfMonth: results.GetValue("dayOfMonth"),
+            DayOfWeek: results.GetValue("dayOfWeek"),
+            DayOfWeekSeperator: results.GetValue("dayOfWeekSeperator"),
             HourFirstDigit: results.GetValue("hourFirstDigit"),
             HourSecondDigit: results.GetValue("hourSecondDigit"),
             HourSeperator: results.GetValue("hourSeperator"),
             MinuteFirstDigit: results.GetValue("minuteFirstDigit"),
             MinuteSecondDigit: results.GetValue("minuteSecondDigit"),
-            DayOfWeek: results.GetValue("dayOfWeek"),
-            DayOfWeekSeperator: results.GetValue("dayOfWeekSeperator"),
             Month: results.GetValue("month"),
-            DayOfMonth: results.GetValue("dayOfMonth"),
-            Year: results.GetValue("year")
+            Year: results.GetValue("year"),
         };
     }
 }

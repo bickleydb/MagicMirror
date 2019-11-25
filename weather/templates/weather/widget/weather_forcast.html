@@ -2,11 +2,20 @@
     style="padding-right:15px; display: flex;flex-direction: row;">
 
     {% for date in date_list %}
-        <div class = "forcastColumn" style="border: 1px solid white;flex-grow: 1;">
-            <div style="display:flex; flex-direction: column">
-                    <span class="alignCenter">{{date.name}}</span>
-                    <i class="alignCenter wi {{date.weatherIcon}}"></i>
-                    <span class="alignCenter">{{date.temp}}{{date.unitType}}</span>
+    <div class="forcastColumn" style="border: 1px solid rgb(100,100,100);flex-grow: 1;">
+        <div style="display:flex; flex-direction:row; height:100%;flex-grow:1;">
+            <div class="alignCenter xxsmall-font" style="display:flex;justify-content:center;flex-direction:column;flex-grow:1">
+                <span style="text-align: left; margin-left:8px;">
+                    {{date.date}}
+                </span>
+            </div>
+            <div class="alignCenter xxsmall-font" style="flex-grow:2;display:flex;justify-content:center;flex-direction:column">
+                <i class="alignCenter wi wi-owm-{{date.icon}}" style="flex-grow:1;font-size:26px;position:relative;top:2px;"></i>
+            </div>
+            <div class="alignCenter xxsmall-font" style="flex-grow:1;display:flex;justify-content:center;flex-direction:column">
+                <span style="text-align:right; margin-right:8px;">
+                    {{date.main_temp|floatformat:0}}{{unit_type}}
+                </span>
             </div>
             
         </div>
