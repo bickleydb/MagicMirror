@@ -20,7 +20,6 @@ from home.views.responses.AppListResponse import AppListResponse
 from home.views.responses.LoadAppResponse import LoadAppResponse
 from home.views.responses.HomePageResponse import HomePageResponse
 from home.views.responses.DeviceResponse import DeviceResponse
-
 from home.models.Device import DeviceModel
 from django.views.decorators.csrf import csrf_exempt
 
@@ -29,6 +28,7 @@ class HomeViews():
 
     def __init__(self):
         self.userDeviceRepo = UserDeviceRepo.UserDeviceRepo()
+        self.magicMirrorRepo = MMCR.MagicMirrorConfigRepo()
         self.appRepo = AppRepo.AppRepo()
         self.cssRepo = CSSRepo.CSSRepo()
         self.fontRepo = FontRepo.FontRepo()
@@ -40,6 +40,9 @@ class HomeViews():
         return response
 
     def get_default_user(self):
+        currentConfig = self.magicMirrorRepo.load_configuration()
+        if(currentConfig.default_user is not None):
+            return currentConfig.default_user
         return User.objects.get(username="daniel")
 
     def get_user_for_device_id(self, deviceId):
@@ -53,7 +56,7 @@ class HomeViews():
         return HttpResponse(HomePageResponse(fontList).to_http())
 
     def load_app_config(self, request):
-        configValue = MMCR.MagicMirrorConfigRepo().load_configuration()
+        configValue = self.magicMirrorRepo.load_configuration()
         response_value = MagicMirrorConfigResponse(configValue)
         return HttpResponse(response_value.to_json())
 

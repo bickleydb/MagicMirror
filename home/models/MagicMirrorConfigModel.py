@@ -3,6 +3,7 @@ from django.utils.translation import gettext as _
 from . import Name_Max_Length
 from . import Unit_Max_Length
 from . import CSS_Length_Units
+from django.contrib.auth.models import User
 
 
 class MagicMirrorConfigModel(models.Model):
@@ -38,6 +39,11 @@ class MagicMirrorConfigModel(models.Model):
     height_unit = models.CharField(max_length=Unit_Max_Length,
                                    choices=CSS_Length_Units
                                    )
+
+    default_user = models.ForeignKey(User, on_delete=models.CASCADE,
+                                     help_text=_("User to default for this mirror configuration"),
+                                     blank=True,
+                                     null=True)
 
     def __str__(self):
         return self.configurationName
