@@ -24,3 +24,4 @@ weather/weather-icons
 traffic/views/token.json
 db.json
 *.env
+env/**
