@@ -1,3 +1,4 @@
+{% spaceless %}
 <div id="timeDisplay">
     <div id="hourContainer" class="digit">
         <div id="hourFirstDigit" class="digitWheel digit" style="top:-{{hourFirstDigitPercent|striptags|safe}}%;">
@@ -62,6 +63,6 @@
     <div id="dayOfWeekSeperator" class="digit dateseperator">{{dayOfWeekSeperator}}</div>
     <div id="monthElement" class="digit">{{month}}</div>
     <div id="dayOfMonthElement" class="digit">{{dayOfMonth}}</div>
-    <div id="dayOfMonthSeperator" class="digit dateseperator"></div>
     <div id="yearElement" class="digit">{{year}}</div>
 </div>
+{% endspaceless %}

@@ -28,11 +28,18 @@
     width:100%;
 }
 
+@media only screen and (min-width:1px) {
+    .tempEntry {
+        font-size:20px;
+    }
+    .largeIcon {
+        font-size:135px;
+    }
+}
 
 .tempEntry {
     width:33%;
     display:flex;
-    font-size:2em;
     border-radius:6px;
 }
 
@@ -59,7 +66,6 @@
 }
 
 .largeIcon {
-    font-size:5em;
     text-align: center;
 }
 
