@@ -1,5 +1,4 @@
 const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     entry : "./TimeApp/TimeApp.js",
@@ -7,9 +6,6 @@ module.exports = {
         filename:'../../../home/static/home/dist/timeApp.js',
     },
     mode : "development",
-    optimization: {
-        minimizer: [new UglifyJsPlugin()],
-    },
     module:  {
         rules: [
             {
