@@ -1,5 +1,4 @@
 import { QueryDefinition } from "../Framework/QueryDefinition";
-import { StatementUIQueryResult } from "./StatementUIQuery";
 
 // tslint:disable-next-line: interface-name
 export interface StatementUIQueryResult {
